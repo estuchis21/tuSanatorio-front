@@ -1,0 +1,37 @@
+.inicio-contenedor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #e0f7fa;
+  padding: 0 16px;
+  text-align: center;
+}
+
+.inicio-titulo {
+  font-size: 3rem;
+  color: #006064;
+  margin-bottom: 0.5rem;
+}
+
+.inicio-subtitulo {
+  font-size: 1.25rem;
+  color: #004d40;
+  margin-bottom: 1.5rem;
+}
+
+.inicio-boton {
+  background-color: #00838f;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.inicio-boton:hover {
+  background-color: #006064;
+}
