@@ -3,9 +3,8 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #e0f7fa;  
+  background-color: #1206F5;
 }
-
 
 .registro-formulario {
   background-color: white;
@@ -15,22 +14,19 @@
   width: 360px;
 }
 
-
 .registro-titulo {
   text-align: center;
   font-size: 1.75rem;
   margin-bottom: 1rem;
-  color: #006064;  
+  color: #1206F5;
 }
-
 
 .registro-label {
   display: block;
   margin-top: 1rem;
   margin-bottom: 0.25rem;
-  color: #004d40;
+  color: #1206F5;
 }
-
 
 .registro-input {
   width: 100%;
@@ -40,20 +36,22 @@
   font-size: 1rem;
 }
 
-
 .registro-boton {
   margin-top: 1.5rem;
   width: 100%;
   padding: 0.75rem;
-  background-color: #00838f;  
-  color: white;
-  border: none;
-  border-radius: 6px;        
+  background-color: white;
+  color: #1206F5;
+  border: 2px solid #1206F5;
+  border-radius: 6px;
   font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .registro-boton:hover {
-  background-color: #006064;  
+  background-color: #1206F5;
+  color: white;
 }
+

@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #e0f7fa;  
+  background-color: #1206F5;
 }
 
 .login-formulario {
@@ -11,21 +11,23 @@
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 320px;
+  width: 360px;
+  display: flex;
+  flex-direction: column;
 }
 
 .login-titulo {
   text-align: center;
   font-size: 1.75rem;
   margin-bottom: 1rem;
-  color: #006064;  
+  color: #1206F5;
 }
 
 .login-label {
   display: block;
   margin-top: 1rem;
   margin-bottom: 0.25rem;
-  color: #004d40;  
+  color: #1206F5;
 }
 
 .login-input {
@@ -40,15 +42,35 @@
   margin-top: 1.5rem;
   width: 100%;
   padding: 0.75rem;
-  background-color: #00838f;  
-  color: white;
-  border: none;
-  border-radius: 6px;        
+  background-color: white;
+  color: #1206F5;
+  border: 2px solid #1206F5;
+  border-radius: 6px;
   font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .login-boton:hover {
-  background-color: #006064;  
+  background-color: #1206F5;
+  color: white;
 }
+
+.login-registrate {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #1206F5;
+}
+
+.login-registrate span {
+  color: #0645ad;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.login-registrate span:hover {
+  color: #0b3d91;
+}
+

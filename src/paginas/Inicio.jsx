@@ -1,14 +1,26 @@
-import React from "react";
-import "../estilos/Inicio.css";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../estilos/Inicio.css';
+import logo from '../assets/logo.png';
 
-export default function Inicio() {
+const Inicio = () => {
+  const navigate = useNavigate();
+
+  const handleAccederClick = () => {
+    navigate('/home');
+  };
+
   return (
     <div className="inicio-contenedor">
-      <h1 className="inicio-titulo">Bienvenido a tuSanatorio</h1>
-      <p className="inicio-subtitulo">
-        Tu centro médico en línea
-      </p>
-      <button className="inicio-boton">Acceder</button>
+      <img src={logo} alt="Logo" className="logo" />
+      <h1 className="inicio-titulo">¡Bienvenido a tuSanatorio!</h1>
+      <p className="inicio-subtitulo">Tu salud esta en las mejores manos</p>
+      <button className="inicio-boton" onClick={handleAccederClick}>
+        Acceder
+      </button>
     </div>
   );
-}
+};
+
+export default Inicio;
+

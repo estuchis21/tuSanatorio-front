@@ -5,15 +5,12 @@ import { registrar } from "../servicios/servicioAuth";
 import { useNavigate } from "react-router-dom";
 
 export default function Registro() {
-  // Estados para cada campo que espera tu backend
   const [username, setUsername] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [nombre, setNombre] = useState("");
   const [DNI, setDNI] = useState("");
   const [telefono, setTelefono] = useState("");
   const [mail, setMail] = useState("");
-  const [rolId, setRolId] = useState(1); // 1 = paciente, 2 = médico
-
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
 
@@ -21,7 +18,7 @@ export default function Registro() {
     e.preventDefault();
 
     try {
-      // Llamamos al servicio registrar enviando exactamente las claves que tu backend lee
+      // Aquí el rol siempre es 1 (paciente), no viene del formulario
       await registrar({
         username,
         contrasena,
@@ -29,10 +26,9 @@ export default function Registro() {
         DNI,
         telefono,
         mail,
-        rol_id: rolId,
+        rol_id: 1,
       });
 
-      // Si sale bien, redirigimos al login
       navigate("/login");
     } catch (err) {
       console.error(err);
@@ -119,19 +115,7 @@ export default function Registro() {
           required
         />
 
-        <label htmlFor="rol_id" className="registro-label">
-          Rol
-        </label>
-        <select
-          id="rol_id"
-          className="registro-input"
-          value={rolId}
-          onChange={(e) => setRolId(Number(e.target.value))}
-          required
-        >
-          <option value={1}>Paciente</option>
-          <option value={2}>Médico</option>
-        </select>
+        {/* Quitamos la selección de rol */}
 
         <button type="submit" className="registro-boton">
           Registrarse

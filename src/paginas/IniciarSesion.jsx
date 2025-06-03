@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "../estilos/IniciarSesion.css";
+import { useNavigate } from "react-router-dom";
 
 export default function IniciarSesion() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,6 +45,12 @@ export default function IniciarSesion() {
         <button type="submit" className="login-boton">
           Entrar
         </button>
+
+        {/* Texto debajo del botón */}
+        <div className="login-registrate">
+          No estás registrado?{" "}
+          <span onClick={() => navigate("/registro")}>Regístrate</span>.
+        </div>
       </form>
     </div>
   );

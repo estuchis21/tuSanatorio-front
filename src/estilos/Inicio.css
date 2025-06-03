@@ -4,26 +4,26 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #e0f7fa;
+  background-color: #1206F5;
   padding: 0 16px;
   text-align: center;
 }
 
 .inicio-titulo {
   font-size: 3rem;
-  color: #006064;
+  color: #E0F7FA;
   margin-bottom: 0.5rem;
 }
 
 .inicio-subtitulo {
   font-size: 1.25rem;
-  color: #004d40;
+  color: #ffff;
   margin-bottom: 1.5rem;
 }
 
 .inicio-boton {
-  background-color: #00838f;
-  color: white;
+  background-color: #ffff;
+  color: black;
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 6px;
@@ -33,5 +33,6 @@
 }
 
 .inicio-boton:hover {
-  background-color: #006064;
+  background-color: #1206F5;
+  color: white;
 }

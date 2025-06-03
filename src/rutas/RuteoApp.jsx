@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Inicio from "../paginas/Inicio";
 import IniciarSesion from "../paginas/IniciarSesion";
 import Registro from "../paginas/Registro";
-// Luego agregaremos rutas protegidas para paciente y médico
+import Home from "../paginas/Home"; // Ruta corregida
 
 export default function RuteoApp() {
   return (
@@ -12,10 +12,12 @@ export default function RuteoApp() {
         <Route path="/" element={<Inicio />} />
         <Route path="/login" element={<IniciarSesion />} />
         <Route path="/registro" element={<Registro />} />
+        <Route path="/home" element={<Home />} />
 
-        {/* Si la ruta no existe, redirigir a '/' */}
+        {/* Ruta comodín para redirigir */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
 }
+
