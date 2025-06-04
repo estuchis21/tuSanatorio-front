@@ -1,0 +1,31 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.layout-header {
+  background-color: #1206F5;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.layout-header nav a {
+  margin-left: 1rem;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.layout-header nav a:hover {
+  text-decoration: underline;
+}
+
+.layout-contenido {
+  flex: 1;
+  padding: 2rem;
+  background-color: #f3f3f3;
+}
