@@ -2,3 +2,16 @@
   padding: 2rem;
   background-color: #f4f9ff;
 }
+
+
+@media (max-width: 768px) {
+  .pagina-paciente {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagina-paciente {
+    padding: 1rem;
+  }
+}

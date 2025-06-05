@@ -17,12 +17,12 @@
 
 .inicio-subtitulo {
   font-size: 1.25rem;
-  color: #ffff;
+  color: #fff;
   margin-bottom: 1.5rem;
 }
 
 .inicio-boton {
-  background-color: #ffff;
+  background-color: #fff;
   color: black;
   padding: 0.75rem 1.5rem;
   border: none;
@@ -35,4 +35,37 @@
 .inicio-boton:hover {
   background-color: #1206F5;
   color: white;
+}
+
+
+
+@media (max-width: 768px) {
+  .inicio-titulo {
+    font-size: 2.25rem;
+  }
+
+  .inicio-subtitulo {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .inicio-boton {
+    font-size: 0.95rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .inicio-titulo {
+    font-size: 1.75rem;
+  }
+
+  .inicio-subtitulo {
+    font-size: 0.9rem;
+  }
+
+  .inicio-boton {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
 }
