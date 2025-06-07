@@ -1,31 +1,40 @@
 .login-contenedor {
   display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100vh;
-  background-color: #e0f7fa;  
+  width: 100%;
+}
+
+.login-imagen {
+  width: 50%;
+  height: 100%;
+}
+
+.login-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .login-formulario {
+  width: 50%;
   background-color: white;
   padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
 }
 
 .login-titulo {
   text-align: center;
   font-size: 1.75rem;
   margin-bottom: 1rem;
-  color: #006064;  
+  color: #1206F5;
 }
 
 .login-label {
-  display: block;
   margin-top: 1rem;
-  margin-bottom: 0.25rem;
-  color: #004d40;  
+  color: #1206F5;
 }
 
 .login-input {
@@ -33,22 +42,76 @@
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 1rem;
 }
 
 .login-boton {
   margin-top: 1.5rem;
-  width: 100%;
   padding: 0.75rem;
-  background-color: #00838f;  
-  color: white;
-  border: none;
-  border-radius: 6px;        
-  font-size: 1rem;
+  background-color: white;
+  color: #1206F5;
+  border: 2px solid #1206F5;
+  border-radius: 6px;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .login-boton:hover {
-  background-color: #006064;  
+  background-color: #1206F5;
+  color: white;
+}
+
+.login-registrate {
+  margin-top: 1rem;
+  text-align: center;
+  color: #1206F5;
+}
+
+.login-registrate span {
+  color: #0645ad;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.login-registrate span:hover {
+  color: #0b3d91;
+}
+
+
+@media (max-width: 768px) {
+  .login-contenedor {
+    flex-direction: column;
+  }
+  .login-imagen {
+    width: 100%;
+    height: 200px; 
+  }
+  .login-imagen img {
+    height: 100%;
+  }
+  .login-formulario {
+    width: 100%;
+    box-shadow: none;
+    padding: 1.5rem;
+  }
+  .login-titulo {
+    font-size: 1.5rem;
+  }
+  .login-boton {
+    padding: 0.65rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-imagen {
+    height: 150px;
+  }
+  .login-titulo {
+    font-size: 1.25rem;
+  }
+  .login-boton {
+    padding: 0.55rem;
+    font-size: 0.95rem;
+  }
 }

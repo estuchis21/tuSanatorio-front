@@ -1,36 +1,50 @@
+.registro-layout {
+  display: flex;
+  flex-direction: row-reverse; 
+  height: 100vh;
+  overflow: hidden;
+}
+
+.registro-imagen {
+  flex: 1;
+  background-color: #1206F5;
+}
+
+.registro-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .registro-contenedor {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #e0f7fa;  
+  background-color: white;
 }
-
 
 .registro-formulario {
-  background-color: white;
+  width: 360px;
   padding: 2rem;
   border-radius: 8px;
+  background-color: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 360px;
 }
-
 
 .registro-titulo {
   text-align: center;
   font-size: 1.75rem;
   margin-bottom: 1rem;
-  color: #006064;  
+  color: #1206F5;
 }
-
 
 .registro-label {
   display: block;
   margin-top: 1rem;
   margin-bottom: 0.25rem;
-  color: #004d40;
+  color: #1206F5;
 }
-
 
 .registro-input {
   width: 100%;
@@ -40,20 +54,86 @@
   font-size: 1rem;
 }
 
-
 .registro-boton {
   margin-top: 1.5rem;
   width: 100%;
   padding: 0.75rem;
-  background-color: #00838f;  
-  color: white;
-  border: none;
-  border-radius: 6px;        
+  background-color: white;
+  color: #1206F5;
+  border: 2px solid #1206F5;
+  border-radius: 6px;
   font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .registro-boton:hover {
-  background-color: #006064;  
+  background-color: #1206F5;
+  color: white;
+}
+
+.registro-error {
+  background-color: #ffe0e0;
+  color: red;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.registro-link {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.registro-link a {
+  color: #1206F5;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.registro-link a:hover {
+  text-decoration: underline;
+}
+
+
+@media (max-width: 768px) {
+  .registro-layout {
+    flex-direction: column;
+  }
+  .registro-imagen {
+    width: 100%;
+    height: 200px; 
+  }
+  .registro-contenedor {
+    width: 100%;
+  }
+  .registro-formulario {
+    width: 90%;
+    padding: 1.5rem;
+    box-shadow: none;
+  }
+  .registro-titulo {
+    font-size: 1.5rem;
+  }
+  .registro-boton {
+    padding: 0.65rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .registro-imagen {
+    height: 150px;
+  }
+  .registro-titulo {
+    font-size: 1.25rem;
+  }
+  .registro-boton {
+    padding: 0.55rem;
+    font-size: 0.9rem;
+  }
 }

@@ -1,0 +1,18 @@
+.pagina-medico {
+  padding: 2rem;
+  background-color: #fff6f6;
+}
+
+
+@media (max-width: 768px) {
+  .pagina-medico {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagina-medico {
+    padding: 1rem;
+  }
+}
+
