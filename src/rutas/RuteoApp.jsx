@@ -8,11 +8,10 @@ import Home from "../paginas/Home";
 
 import Paciente from "../paginas/Paciente";
 import Medico from "../paginas/Medico";
+import MisTurnos from "../paginas/MisTurnos"; // ✅ Importamos el nuevo componente
 
 import DiseñoPaciente from "../diseno/DiseñoPaciente";
 import DiseñoMedico from "../diseno/DiseñoMedico";
-
-
 
 export default function RuteoApp() {
   return (
@@ -26,6 +25,7 @@ export default function RuteoApp() {
         {/* Ruta para pacientes con diseño */}
         <Route path="/paciente" element={<DiseñoPaciente />}>
           <Route index element={<Paciente />} />
+          <Route path="turnos" element={<MisTurnos />} /> {/* ✅ Nueva ruta */}
         </Route>
 
         {/* Ruta para médicos con diseño */}
