@@ -8,15 +8,14 @@ export default function DiseñoPaciente() {
       <header className="layout-header">
         <h1>Portal del Paciente</h1>
         <nav>
-          <Link to="/home">Inicio</Link>
-          <Link to="/paciente/turnos">Mis Turnos</Link> {/* ✅ Enlace corregido */}
+          <Link to="/paciente/sacar-turno">Sacar Turnos</Link>
+          <Link to="/paciente/mis-turnos">Mis Turnos</Link>
           <Link to="/">Cerrar sesión</Link>
         </nav>
       </header>
       <main className="layout-contenido">
-        <Outlet /> {/* ✅ Para renderizar subrutas como Paciente y MisTurnos */}
+        <Outlet />
       </main>
     </div>
   );
 }
-
