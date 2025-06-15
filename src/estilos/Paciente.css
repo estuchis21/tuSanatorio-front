@@ -1,17 +1,20 @@
 .pagina-paciente {
-  padding: 2rem;
-  background-color: #f4f9ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+  text-align: center;
 }
 
-
-@media (max-width: 768px) {
-  .pagina-paciente {
-    padding: 1.5rem;
-  }
+.pagina-paciente h2 {
+  font-size: 2rem;
+  color: #1206F5;
+  margin-bottom: 1rem;
 }
 
-@media (max-width: 480px) {
-  .pagina-paciente {
-    padding: 1rem;
-  }
+.pagina-paciente p {
+  font-size: 1.2rem;
+  color: #333;
 }

@@ -1,11 +1,11 @@
 import React from "react";
-import DiseñoPaciente from "../diseno/DiseñoPaciente";
+import "../estilos/Paciente.css";
 
 export default function Paciente() {
   return (
-    <DiseñoPaciente>
+    <div className="pagina-paciente">
       <h2>Bienvenido/a Paciente</h2>
-      <p>Aquí podrás ver tus turnos, historial médico y más.</p>
-    </DiseñoPaciente>
+      <p>Aquí podrás ver ,sacar o modificar tus turnos.</p>
+    </div>
   );
 }

@@ -8,11 +8,11 @@ import Home from "../paginas/Home";
 
 import Paciente from "../paginas/Paciente";
 import Medico from "../paginas/Medico";
+import MisTurnos from "../paginas/MisTurnos";
+import SacarTurno from "../paginas/SacarTurno";
 
 import DiseñoPaciente from "../diseno/DiseñoPaciente";
 import DiseñoMedico from "../diseno/DiseñoMedico";
-
-
 
 export default function RuteoApp() {
   return (
@@ -23,17 +23,19 @@ export default function RuteoApp() {
         <Route path="/registro" element={<Registro />} />
         <Route path="/home" element={<Home />} />
 
-        {/* Ruta para pacientes con diseño */}
+        {/* Rutas del paciente con diseño */}
         <Route path="/paciente" element={<DiseñoPaciente />}>
           <Route index element={<Paciente />} />
+          <Route path="mis-turnos" element={<MisTurnos />} />
+          <Route path="sacar-turno" element={<SacarTurno />} />
         </Route>
 
-        {/* Ruta para médicos con diseño */}
+        {/* Rutas del médico con diseño */}
         <Route path="/medico" element={<DiseñoMedico />}>
           <Route index element={<Medico />} />
         </Route>
 
-        {/* Ruta comodín para redirigir */}
+        {/* Ruta comodín */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

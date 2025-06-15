@@ -1,0 +1,98 @@
+.mis-turnos-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  text-align: center;
+}
+
+.mis-turnos-container h2 {
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  color: #1206F5;
+}
+
+.mis-turnos-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.mis-turnos-tabla thead {
+  background-color: #1206F5;
+  color: white;
+}
+
+.mis-turnos-tabla th,
+.mis-turnos-tabla td {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+}
+
+.mis-turnos-tabla tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Estados con colores */
+.estado-confirmado td {
+  background-color: #d4edda;
+  color: #155724;
+  font-weight: bold;
+}
+
+.estado-pendiente td {
+  background-color: #fff3cd;
+  color: #856404;
+  font-weight: bold;
+}
+
+.estado-cancelado td {
+  background-color: #f8d7da;
+  color: #721c24;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .mis-turnos-tabla {
+    font-size: 0.9rem;
+  }
+
+  .mis-turnos-container {
+    padding: 1rem;
+  }
+}
+.btn-accion {
+  padding: 6px 12px;
+  margin: 0 4px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.btn-accion.cancelar {
+  background-color: #e53935;
+}
+
+.btn-accion.cancelar:hover {
+  background-color: #c62828;
+}
+
+.btn-accion.reprogramar {
+  background-color: #1976d2;
+}
+
+.btn-accion.reprogramar:hover {
+  background-color: #115293;
+}
+
+.btn-accion:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
