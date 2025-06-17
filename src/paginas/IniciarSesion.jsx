@@ -2,15 +2,31 @@ import React, { useState } from "react";
 import "../estilos/IniciarSesion.css";
 import { useNavigate } from "react-router-dom";
 import imgLogin from "../assets/imgLogin.jpg";
+import { login } from "../servicios/servicioAuth";
 
 export default function IniciarSesion() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [contrasena, setContrasena] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Iniciando sesión con:", { email, password });
+
+    try {
+      const res = await login(username, contrasena);
+      const usuario = res.data.user;
+
+      // Redirigir según rol
+      if (usuario.rol === "Paciente" || usuario.rol === "paciente") {
+        navigate("/paciente");
+      } else if (usuario.rol === "Médico" || usuario.rol === "medico") {
+        navigate("/medico");
+      } else {
+        alert("Rol de usuario desconocido");
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || "Error al iniciar sesión");
+    }
   };
 
   return (
@@ -22,23 +38,23 @@ export default function IniciarSesion() {
       <form className="login-formulario" onSubmit={handleSubmit}>
         <h2 className="login-titulo">Iniciar Sesión</h2>
 
-        <label htmlFor="email" className="login-label">Email</label>
+        <label htmlFor="username" className="login-label">Usuario</label>
         <input
-          type="email"
-          id="email"
+          type="text"
+          id="username"
           className="login-input"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
 
-        <label htmlFor="password" className="login-label">Contraseña</label>
+        <label htmlFor="contrasena" className="login-label">Contraseña</label>
         <input
           type="password"
-          id="password"
+          id="contrasena"
           className="login-input"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={contrasena}
+          onChange={(e) => setContrasena(e.target.value)}
           required
         />
 

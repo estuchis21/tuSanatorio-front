@@ -3,15 +3,16 @@ import React, { useState } from "react";
 import "../estilos/Registro.css";
 import { registrar } from "../servicios/servicioAuth";
 import { useNavigate, Link } from "react-router-dom";
-import imgRegistro from "../assets/imgRegistro.jpg"; // asegurate del nombre y extensión
+import imgRegistro from "../assets/imgRegistro.jpg";
 
 export default function Registro() {
   const [username, setUsername] = useState("");
   const [contrasena, setContrasena] = useState("");
-  const [nombre, setNombre] = useState("");
+  const [nombres, setNombres] = useState("");
+  const [apellido, setApellido] = useState("");
   const [DNI, setDNI] = useState("");
   const [telefono, setTelefono] = useState("");
-  const [mail, setMail] = useState("");
+  const [email, setEmail] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
 
@@ -22,11 +23,12 @@ export default function Registro() {
       await registrar({
         username,
         contrasena,
-        nombre,
+        nombres,
+        apellido,
         DNI,
         telefono,
-        mail,
-        rol_id: 1,
+        email,
+        id_rol: 1 // Siempre paciente
       });
 
       navigate("/login");
@@ -67,13 +69,23 @@ export default function Registro() {
             required
           />
 
-          <label htmlFor="nombre" className="registro-label">Nombre</label>
+          <label htmlFor="nombres" className="registro-label">Nombres</label>
           <input
             type="text"
-            id="nombre"
+            id="nombres"
             className="registro-input"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
+            value={nombres}
+            onChange={(e) => setNombres(e.target.value)}
+            required
+          />
+
+          <label htmlFor="apellido" className="registro-label">Apellido</label>
+          <input
+            type="text"
+            id="apellido"
+            className="registro-input"
+            value={apellido}
+            onChange={(e) => setApellido(e.target.value)}
             required
           />
 
@@ -97,13 +109,13 @@ export default function Registro() {
             required
           />
 
-          <label htmlFor="mail" className="registro-label">Email</label>
+          <label htmlFor="email" className="registro-label">Email</label>
           <input
             type="email"
-            id="mail"
+            id="email"
             className="registro-input"
-            value={mail}
-            onChange={(e) => setMail(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
 
@@ -117,3 +129,4 @@ export default function Registro() {
     </div>
   );
 }
+
