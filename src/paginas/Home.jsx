@@ -1,11 +1,12 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../estilos/Home.css';
-import logo from '../assets/logo.png';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import React from "react";
+import "react-responsive-carousel";
 import { Carousel } from 'react-responsive-carousel';
+import { useNavigate } from 'react-router-dom';
+import logo from '../assets/logo.png';
+import '../estilos/Home.css';
 
 import carrusel1 from '../assets/carrusel1.jpg';
+import carrusel10 from '../assets/carrusel10.jpg';
 import carrusel2 from '../assets/carrusel2.jpg';
 import carrusel3 from '../assets/carrusel3.jpg';
 import carrusel4 from '../assets/carrusel4.jpg';
@@ -14,7 +15,6 @@ import carrusel6 from '../assets/carrusel6.jpg';
 import carrusel7 from '../assets/carrusel7.jpg';
 import carrusel8 from '../assets/carrusel8.jpg';
 import carrusel9 from '../assets/carrusel9.jpg';
-import carrusel10 from '../assets/carrusel10.jpg';
 
 const Home = () => {
   const navigate = useNavigate();

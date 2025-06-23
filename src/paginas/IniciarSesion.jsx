@@ -17,9 +17,9 @@ export default function IniciarSesion() {
       const usuario = res.data.user;
 
       // Redirigir según rol
-      if (usuario.rol === "Paciente" || usuario.rol === "paciente") {
+      if (usuario.id_rol === 1) {
         navigate("/paciente");
-      } else if (usuario.rol === "Médico" || usuario.rol === "medico") {
+      } else if (usuario.id_rol === 2) {
         navigate("/medico");
       } else {
         alert("Rol de usuario desconocido");
