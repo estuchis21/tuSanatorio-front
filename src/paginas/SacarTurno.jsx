@@ -1,17 +1,59 @@
 // src/paginas/SacarTurno.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  obtenerEspecialidades,
+  obtenerMedicosPorEspecialidad,
+  obtenerTurnosDisponibles,
+  reservarTurno
+} from "../servicios/servicioTurnos";
 import "../estilos/SacarTurno.css";
 
 export default function SacarTurno() {
-  const [especialidad, setEspecialidad] = useState("");
-  const [medico, setMedico] = useState("");
-  const [fecha, setFecha] = useState("");
-  const [hora, setHora] = useState("");
+  const [especialidades, setEspecialidades] = useState([]);
+  const [medicos, setMedicos] = useState([]);
+  const [turnos, setTurnos] = useState([]);
 
-  const handleSubmit = (e) => {
+  const [idEspecialidad, setIdEspecialidad] = useState("");
+  const [idMedico, setIdMedico] = useState("");
+  const [fecha, setFecha] = useState("");
+  const [horaSeleccionada, setHoraSeleccionada] = useState("");
+
+  // Cargar especialidades al iniciar
+  useEffect(() => {
+    obtenerEspecialidades().then(res => setEspecialidades(res.data));
+  }, []);
+
+  // Cargar médicos cuando cambia la especialidad
+  useEffect(() => {
+    if (idEspecialidad) {
+      obtenerMedicosPorEspecialidad(idEspecialidad).then(res => setMedicos(res.data));
+    } else {
+      setMedicos([]);
+    }
+  }, [idEspecialidad]);
+
+  // Cargar turnos cuando cambia médico y fecha
+  useEffect(() => {
+    if (idMedico && fecha) {
+      obtenerTurnosDisponibles(idMedico, fecha).then(res => setTurnos(res.data));
+    } else {
+      setTurnos([]);
+    }
+  }, [idMedico, fecha]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Turno solicitado:\nEspecialidad: ${especialidad}\nMédico: ${medico}\nFecha: ${fecha}\nHora: ${hora}`);
-    // Acá podrías hacer un fetch/post a tu backend
+    try {
+      await reservarTurno({
+        idTurno: horaSeleccionada,
+        idPaciente: JSON.parse(localStorage.getItem("usuario")).id,
+        idObraSocial: 1 // por ahora se puede dejar fijo
+      });
+      alert("Turno reservado exitosamente");
+    } catch (err) {
+      console.error(err);
+      alert("Error al reservar turno");
+    }
   };
 
   return (
@@ -20,21 +62,23 @@ export default function SacarTurno() {
       <form className="sacar-turno-formulario" onSubmit={handleSubmit}>
         <label>
           Especialidad:
-          <select value={especialidad} onChange={(e) => setEspecialidad(e.target.value)} required>
+          <select value={idEspecialidad} onChange={(e) => setIdEspecialidad(e.target.value)} required>
             <option value="">Seleccionar</option>
-            <option value="Clínica Médica">Clínica Médica</option>
-            <option value="Cardiología">Cardiología</option>
-            <option value="Dermatología">Dermatología</option>
+            {especialidades.map((esp) => (
+              <option key={esp.id_especialidad} value={esp.id_especialidad}>{esp.nombre}</option>
+            ))}
           </select>
         </label>
 
         <label>
           Médico:
-          <select value={medico} onChange={(e) => setMedico(e.target.value)} required>
+          <select value={idMedico} onChange={(e) => setIdMedico(e.target.value)} required>
             <option value="">Seleccionar</option>
-            <option value="Dr. López">Dr. López</option>
-            <option value="Dra. Martínez">Dra. Martínez</option>
-            <option value="Dr. Pérez">Dr. Pérez</option>
+            {medicos.map((med) => (
+              <option key={med.id_medico} value={med.id_medico}>
+                {med.nombres} {med.apellido}
+              </option>
+            ))}
           </select>
         </label>
 
@@ -44,8 +88,15 @@ export default function SacarTurno() {
         </label>
 
         <label>
-          Hora:
-          <input type="time" value={hora} onChange={(e) => setHora(e.target.value)} required />
+          Horario:
+          <select value={horaSeleccionada} onChange={(e) => setHoraSeleccionada(e.target.value)} required>
+            <option value="">Seleccionar</option>
+            {turnos.map((turno) => (
+              <option key={turno.id_turno} value={turno.id_turno}>
+                {turno.hora_inicio} - {turno.hora_fin}
+              </option>
+            ))}
+          </select>
         </label>
 
         <button type="submit">Confirmar Turno</button>

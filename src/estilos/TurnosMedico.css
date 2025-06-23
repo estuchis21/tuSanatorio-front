@@ -1,0 +1,74 @@
+.turnos-medico-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.turnos-medico-container h2 {
+  color: #1206F5;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.turnos-medico-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.turnos-medico-tabla th {
+  background-color: #1206F5;
+  color: white;
+  padding: 0.75rem;
+}
+
+.turnos-medico-tabla td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.turnos-medico-tabla tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.asistencia-select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-weight: bold;
+  background-color: #eef1ff;
+  color: #1206F5;
+  cursor: pointer;
+}
+
+.asistencia-select:disabled {
+  background-color: #eee;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.cargando-turnos,
+.no-turnos {
+  text-align: center;
+  color: #444;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 600px) {
+  .turnos-medico-container {
+    padding: 1rem;
+  }
+
+  .turnos-medico-tabla {
+    font-size: 0.9rem;
+  }
+
+  .asistencia-select {
+    width: 100%;
+  }
+}

@@ -10,6 +10,7 @@ import Paciente from "../paginas/Paciente";
 import Medico from "../paginas/Medico";
 import MisTurnos from "../paginas/MisTurnos";
 import SacarTurno from "../paginas/SacarTurno";
+import TurnosMedico from "../paginas/TurnosMedico"; 
 
 import DiseñoPaciente from "../diseno/DiseñoPaciente";
 import DiseñoMedico from "../diseno/DiseñoMedico";
@@ -33,6 +34,7 @@ export default function RuteoApp() {
         {/* Rutas del médico con diseño */}
         <Route path="/medico" element={<DiseñoMedico />}>
           <Route index element={<Medico />} />
+          <Route path="turnos" element={<TurnosMedico />} /> {/* <-- Agregado */}
         </Route>
 
         {/* Ruta comodín */}

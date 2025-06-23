@@ -96,3 +96,17 @@
   color: #666;
   cursor: not-allowed;
 }
+.btn-accion.no-disponible {
+  background-color: #999999;
+  color: #eee;
+  cursor: not-allowed;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+.no-disponible-text {
+  color: #999999;
+  font-style: italic;
+  margin-top: 1rem;
+  text-align: center;
+}
