@@ -2,6 +2,7 @@
 import axios from "axios";
 
 const API_URL = "http://localhost:3000/auth";  
+
 // Guardar token en localStorage
 export const guardarToken = (token) => {
   localStorage.setItem("token", token);
@@ -17,20 +18,27 @@ export const eliminarToken = () => {
   localStorage.removeItem("token");
 };
 
-// Registrar usuario (solo paciente, rol_id fijo)
 export const registrar = async (datosUsuario) => {
- 
-  datosUsuario.id_rol = 1; 
-
-  const res = await axios.post(`${API_URL}/register`, datosUsuario);
-  return res.data;
+  try {
+    const res = await axios.post(`${API_URL}/register`, datosUsuario);
+    return res.data;
+  } catch (error) {
+    // Retornamos un objeto con error para que quien llame pueda manejarlo
+    throw new Error('Error al registrarse: ' + (error.response?.data?.message || error.message));
+  }
 };
+
 
 // Login usuario
 export const login = async (username, contrasena) => {
-  const res = await axios.post(`${API_URL}/login`, { username, contrasena });
-  if (res.data.token) {
-    guardarToken(res.data.token);
+  try{
+    const res = await axios.post(`${API_URL}/login`, {username, contrasena});
+    if (res.data.token) {
+      guardarToken(res.data.token);
+    }
+    return res.data;
   }
-  return res;
+  catch(error){
+    throw new Error('Error al iniciar sesión: ' + (error.response?.data?.message || error.message));
+  }
 };
