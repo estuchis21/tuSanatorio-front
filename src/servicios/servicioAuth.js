@@ -47,3 +47,12 @@ export const login = async (username, contrasena) => {
   }
 };
 
+export const getEspecialidades = async () => {
+  try {
+    const res = await axios.get(`${API_URL}/getEspecialidades`);
+    return res.data; // Asumimos que el backend devuelve un array de especialidades
+  } catch (error) {
+    throw new Error("Error al obtener especialidades");
+  }
+};
+

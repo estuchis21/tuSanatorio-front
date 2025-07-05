@@ -1,7 +1,7 @@
-// src/paginas/Registro.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../estilos/Registro.css";
 import { registrar } from "../servicios/servicioAuth";
+import { getEspecialidades } from "../servicios/servicioAuth";
 import { useNavigate, Link } from "react-router-dom";
 import imgRegistro from "../assets/imgRegistro.jpg";
 
@@ -13,15 +13,34 @@ export default function Registro() {
   const [DNI, setDNI] = useState("");
   const [telefono, setTelefono] = useState("");
   const [email, setEmail] = useState("");
-  const [idRol, setIdRol] = useState("");
+  const [id_rol, setIdRol] = useState("");
+  const [id_especialidad, setId_especialidad] = useState("");
+  const [especialidades, setEspecialidades] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Solo si el rol es médico, traemos las especialidades
+    if (id_rol === 2) {
+      getEspecialidades()
+        .then((data) => {
+          setEspecialidades(data);
+        })
+        .catch((err) => {
+          console.error(err);
+          setErrorMsg("No se pudieron cargar las especialidades");
+        });
+    } else {
+      setEspecialidades([]);
+      setId_especialidad("");
+    }
+  }, [id_rol]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await registrar({
+      const datosRegistro = {
         username,
         contrasena,
         nombres,
@@ -29,9 +48,14 @@ export default function Registro() {
         DNI,
         telefono,
         email,
-        id_rol: idRol
-      });
+        id_rol,
+      };
 
+      if (id_rol === 2) {
+        datosRegistro.id_especialidad = id_especialidad;
+      }
+
+      await registrar(datosRegistro);
       navigate("/login");
     } catch (err) {
       console.error(err);
@@ -119,19 +143,39 @@ export default function Registro() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <label htmlFor="rol" className="registro-label">Rol</label>
-            <select
-              id="rol"
-              className="registro-input"
-              value={idRol}
-              onChange={(e) => setIdRol(parseInt(e.target.value))}
-              required
-            >
-              <option value="">Seleccionar rol</option>
-              <option value="1">Paciente</option>
-              <option value="2">Médico</option>
-            </select>
 
+          <label htmlFor="rol" className="registro-label">Rol</label>
+          <select
+            id="rol"
+            className="registro-input"
+            value={id_rol}
+            onChange={(e) => setIdRol(parseInt(e.target.value))}
+            required
+          >
+            <option value="">Seleccionar rol</option>
+            <option value={1}>Paciente</option>
+            <option value={2}>Médico</option>
+          </select>
+
+          {id_rol === 2 && (
+            <>
+              <label htmlFor="especialidad" className="registro-label">Especialidad</label>
+              <select
+                id="especialidad"
+                className="registro-input"
+                value={id_especialidad}
+                onChange={(e) => setId_especialidad(parseInt(e.target.value))}
+                required
+              >
+                <option value="">Seleccionar especialidad</option>
+                {especialidades.map((esp) => (
+                  <option key={esp.id_especialidad} value={esp.id_especialidad}>
+                    {esp.nombre}
+                  </option>
+                ))}
+              </select>
+            </>
+          )}
 
           <button type="submit" className="registro-boton">Registrarse</button>
 
@@ -143,4 +187,3 @@ export default function Registro() {
     </div>
   );
 }
-
