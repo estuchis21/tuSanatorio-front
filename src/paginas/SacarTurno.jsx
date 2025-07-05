@@ -1,11 +1,6 @@
 // src/paginas/SacarTurno.jsx
 import React, { useEffect, useState } from "react";
-import {
-  obtenerEspecialidades,
-  obtenerMedicosPorEspecialidad,
-  obtenerTurnosDisponibles,
-  reservarTurno
-} from "../servicios/servicioTurnos";
+import {asignarTurno} from "../servicios/servicioTurnos";
 import "../estilos/SacarTurno.css";
 
 export default function SacarTurno() {

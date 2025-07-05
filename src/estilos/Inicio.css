@@ -4,68 +4,101 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #1206F5;
-  padding: 0 16px;
+  padding: 2rem;
+  background: linear-gradient(145deg, #0e048f, #1206F5);
+  color: #f0f8ff;
   text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.inicio-logo {
+  width: 20vw;
+  height: auto;
+  margin-bottom: 1.5rem;
+  animation: zoomIn 0.6s ease-in-out;
 }
 
 .inicio-titulo {
   font-size: 3rem;
-  color: #E0F7FA;
+  font-weight: bold;
   margin-bottom: 0.5rem;
+  color: #E0F7FA;
+}
+
+.resaltado {
+  color: #ffffff;
 }
 
 .inicio-subtitulo {
   font-size: 1.25rem;
-  color: #fff;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  color: #f1f1f1;
 }
 
 .inicio-boton {
-  background-color: #fff;
-  color: black;
-  padding: 0.75rem 1.5rem;
+  background-color: #ffffff;
+  color: #1206F5;
+  padding: 0.8rem 2rem;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 1.05rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 }
 
 .inicio-boton:hover {
-  background-color: #1206F5;
-  color: white;
+  background-color: #0e048f;
+  color: #ffffff;
+  transform: scale(1.05);
 }
-
-
 
 @media (max-width: 768px) {
   .inicio-titulo {
-    font-size: 2.25rem;
+    font-size: 2.2rem;
   }
 
   .inicio-subtitulo {
     font-size: 1rem;
-    margin-bottom: 1rem;
   }
 
   .inicio-boton {
-    font-size: 0.95rem;
-    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    padding: 0.6rem 1.5rem;
+  }
+
+  .inicio-logo {
+    width: 90px;
   }
 }
 
 @media (max-width: 480px) {
   .inicio-titulo {
-    font-size: 1.75rem;
+    font-size: 1.8rem;
   }
 
   .inicio-subtitulo {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 
   .inicio-boton {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    padding: 0.5rem 1.2rem;
+  }
+
+  .inicio-logo {
+    width: 70px;
+  }
+}
+
+/* Animación para el logo */
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
   }
 }

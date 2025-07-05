@@ -29,16 +29,21 @@ export const registrar = async (datosUsuario) => {
 };
 
 
-// Login usuario
 export const login = async (username, contrasena) => {
-  try{
-    const res = await axios.post(`${API_URL}/login`, {username, contrasena});
+  try {
+    const res = await axios.post(`${API_URL}/login`, { username, contrasena });
+
     if (res.data.token) {
       guardarToken(res.data.token);
     }
-    return res.data;
-  }
-  catch(error){
-    throw new Error('Error al iniciar sesión: ' + (error.response?.data?.message || error.message));
+
+    return {
+      token: res.data.token,
+      user: res.data.user 
+    };
+
+  } catch (error) {
+    throw error;
   }
 };
+

@@ -13,6 +13,7 @@ export default function Registro() {
   const [DNI, setDNI] = useState("");
   const [telefono, setTelefono] = useState("");
   const [email, setEmail] = useState("");
+  const [idRol, setIdRol] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
 
@@ -28,7 +29,7 @@ export default function Registro() {
         DNI,
         telefono,
         email,
-        id_rol: 1 // Siempre paciente
+        id_rol: idRol
       });
 
       navigate("/login");
@@ -118,6 +119,19 @@ export default function Registro() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+          <label htmlFor="rol" className="registro-label">Rol</label>
+            <select
+              id="rol"
+              className="registro-input"
+              value={idRol}
+              onChange={(e) => setIdRol(parseInt(e.target.value))}
+              required
+            >
+              <option value="">Seleccionar rol</option>
+              <option value="1">Paciente</option>
+              <option value="2">Médico</option>
+            </select>
+
 
           <button type="submit" className="registro-boton">Registrarse</button>
 

@@ -10,24 +10,24 @@ export default function IniciarSesion() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const res = await login(username, contrasena);
-      const usuario = res.data.user;
+  try {
+    const res = await login(username, contrasena);
+    const usuario = res.user;
 
-      // Redirigir según rol
-      if (usuario.id_rol === 1) {
-        navigate("/paciente");
-      } else if (usuario.id_rol === 2) {
-        navigate("/medico");
-      } else {
-        alert("Rol de usuario desconocido");
-      }
-    } catch (error) {
-      alert(error.response?.data?.message || "Error al iniciar sesión");
+    if (usuario.id_rol === 1) {
+      navigate("/paciente");
+    } else if (usuario.id_rol === 2) {
+      navigate("/medico");
+    } else {
+      alert("Rol de usuario desconocido");
     }
-  };
+  } catch (error) {
+    alert(error.message || "Error al iniciar sesión");
+  }
+};
+
 
   return (
     <div className="login-contenedor">
