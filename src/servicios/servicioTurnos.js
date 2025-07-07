@@ -12,15 +12,16 @@ export const asignarTurno = async (datosTurnos) => {
   }
 };
 
-export const getTurnos = async (id_usuario) => {
-  try{
-    const res = await axios.get(`${API_URL}/misTurnos/${id_usuario}`);
+export const getTurnos = async (id_paciente) => {
+  try {
+    const res = await axios.get(`${API_URL}/misTurnos/${id_paciente}`);
     return res.data;
+  } catch (error) {
+    throw new Error('Error al obtener el turno del paciente: ' + (error.response?.data?.message || error.message));
   }
-  catch(error){
-    throw new Error('Error al obtener el turno del usuario ' + (error.response?.data?.message || error.message));
-  }
-}
+};
+
+
 
 export const historialTurnosPac = async (id_paciente) => {
   try{
@@ -42,12 +43,24 @@ export const historialTurnosMed = async (id_medico) => {
   }
 }
 
-export const deleteTurno = async (datosTurnoPaciente) => {
+export const deleteTurno = async ({ id_paciente, id_turno_asignado }) => {
+  try {
+    const res = await axios.delete(`${API_URL}/eliminarTurno`, {
+      data: { id_paciente, id_turno_asignado }
+    });
+    return res.data;
+  } catch (error) {
+    throw new Error('Error al eliminar el turno: ' + (error.response?.data?.message || error.message));
+  }
+};
+
+
+export const obtenerTurnosDisponibles = async (id_medico) => {
   try{
-    const res = await axios.get(`${API_URL}/eliminarTurno`, datosTurnoPaciente);
+    const res = await axios.get(`${API_URL}/getTurnosDisponibles/${id_medico}`);
     return res.data;
   }
   catch(error){
-    throw new Error('Error al eliminar un turno para un paciente' + (error.response?.data?.message || error.message));
+    throw new Error('Error al obtener todos los turnos disponibles de un médico' + (error.response?.data?.message || error.message));
   }
 }

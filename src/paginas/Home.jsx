@@ -42,8 +42,7 @@ const Home = () => {
           y un staff super preparado para atenderte.
         </h2>
         <div className="login">
-          <strong>¿Desea iniciar sesión?</strong>
-          <button className="login-btn" onClick={handleLoginClick}>Login</button>
+          <button className="login-btn" onClick={handleLoginClick}>¿Desea iniciar sesión?</button>
         </div>
         <div className="carrusel">
           <Carousel {...getCarouselSettings()}>

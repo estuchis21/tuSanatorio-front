@@ -56,3 +56,24 @@ export const getEspecialidades = async () => {
   }
 };
 
+
+
+// Obtener id_paciente por id_usuario
+export const getPacienteByUsuarioId = async (id_usuario) => {
+  try {
+    const res = await axios.get(`${API_URL}/paciente/usuario/${id_usuario}`);
+    return res.data; // { id_paciente: X }
+  } catch (error) {
+    throw new Error("Error al obtener id_paciente: " + (error.response?.data?.error || error.message));
+  }
+};
+
+// Obtener id_medico por id_usuario (si usás médicos)
+export const getMedicoByUsuarioId = async (id_usuario) => {
+  try {
+    const res = await axios.get(`${API_URL}/medico/usuario/${id_usuario}`);
+    return res.data; // { id_medico: X }
+  } catch (error) {
+    throw new Error("Error al obtener id_medico: " + (error.response?.data?.error || error.message));
+  }
+};

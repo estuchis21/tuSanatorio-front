@@ -1,18 +1,53 @@
 .pagina-medico {
-  padding: 2rem;
-  background-color: #fff6f6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 1rem;
 }
 
+.pagina-medico h2 {
+  font-size: 2rem;
+  color: #1206F5;
+  margin-bottom: 1rem;
+}
 
-@media (max-width: 768px) {
-  .pagina-medico {
-    padding: 1.5rem;
+.pagina-medico p {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* 📱 Teléfonos chicos (hasta 600px) */
+@media (max-width: 600px) {
+  .pagina-medico h2 {
+    font-size: 1.4rem;
+  }
+
+  .pagina-medico p {
+    font-size: 0.95rem;
   }
 }
 
-@media (max-width: 480px) {
-  .pagina-medico {
-    padding: 1rem;
+/* 📱 Tablets verticales (601px a 768px) */
+@media (min-width: 601px) and (max-width: 768px) {
+  .pagina-medico h2 {
+    font-size: 1.6rem;
+  }
+
+  .pagina-medico p {
+    font-size: 1.05rem;
   }
 }
 
+/* 💻 Tablets horizontales / laptops pequeñas (769px a 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .pagina-medico h2 {
+    font-size: 1.8rem;
+  }
+
+  .pagina-medico p {
+    font-size: 1.15rem;
+  }
+}

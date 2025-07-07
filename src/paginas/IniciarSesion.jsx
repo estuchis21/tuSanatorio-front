@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import "../estilos/IniciarSesion.css";
+// src/paginas/IniciarSesion.jsx
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import imgLogin from "../assets/imgLogin.jpg";
-import { login } from "../servicios/servicioAuth";
+import "../estilos/IniciarSesion.css";
+import { getMedicoByUsuarioId, getPacienteByUsuarioId, login } from "../servicios/servicioAuth";
 
 export default function IniciarSesion() {
   const [username, setUsername] = useState("");
@@ -10,24 +11,41 @@ export default function IniciarSesion() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const res = await login(username, contrasena);
-    const usuario = res.user;
+    try {
+      const res = await login(username, contrasena);
+      const usuario = res.user;
 
-    if (usuario.id_rol === 1) {
-      navigate("/paciente");
-    } else if (usuario.id_rol === 2) {
-      navigate("/medico");
-    } else {
-      alert("Rol de usuario desconocido");
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("id_usuario", usuario.id_usuario);
+      localStorage.setItem("id_rol", usuario.id_rol);
+
+      if (usuario.id_rol === 1) {
+        // Paciente: obtener id_paciente y guardar
+        const pacienteData = await getPacienteByUsuarioId(usuario.id_usuario);
+        if (!pacienteData.id_paciente) {
+          alert("No se encontró el paciente asociado a este usuario.");
+          return;
+        }
+        localStorage.setItem("id_paciente", pacienteData.id_paciente);
+        navigate("/paciente/mis-turnos");
+      } else if (usuario.id_rol === 2) {
+        // Médico: obtener id_medico y guardar
+        const medicoData = await getMedicoByUsuarioId(usuario.id_usuario);
+        if (!medicoData.id_medico) {
+          alert("No se encontró el médico asociado a este usuario.");
+          return;
+        }
+        localStorage.setItem("id_medico", medicoData.id_medico);
+        navigate("/medico");
+      } else {
+        alert("Rol de usuario desconocido");
+      }
+    } catch (error) {
+      alert(error.message || "Error al iniciar sesión");
     }
-  } catch (error) {
-    alert(error.message || "Error al iniciar sesión");
-  }
-};
-
+  };
 
   return (
     <div className="login-contenedor">
