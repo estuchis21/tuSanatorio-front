@@ -1,4 +1,5 @@
-// src/paginas/IniciarSesion.jsx
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import imgLogin from "../assets/imgLogin.jpg";
@@ -8,10 +9,16 @@ import { getMedicoByUsuarioId, getPacienteByUsuarioId, login } from "../servicio
 export default function IniciarSesion() {
   const [username, setUsername] = useState("");
   const [contrasena, setContrasena] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const handleRegresar = () => {
+    navigate('/home');
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const res = await login(username, contrasena);
@@ -22,19 +29,19 @@ export default function IniciarSesion() {
       localStorage.setItem("id_rol", usuario.id_rol);
 
       if (usuario.id_rol === 1) {
-        // Paciente: obtener id_paciente y guardar
         const pacienteData = await getPacienteByUsuarioId(usuario.id_usuario);
         if (!pacienteData.id_paciente) {
           alert("No se encontró el paciente asociado a este usuario.");
+          setLoading(false);
           return;
         }
         localStorage.setItem("id_paciente", pacienteData.id_paciente);
         navigate("/paciente/mis-turnos");
       } else if (usuario.id_rol === 2) {
-        // Médico: obtener id_medico y guardar
         const medicoData = await getMedicoByUsuarioId(usuario.id_usuario);
         if (!medicoData.id_medico) {
           alert("No se encontró el médico asociado a este usuario.");
+          setLoading(false);
           return;
         }
         localStorage.setItem("id_medico", medicoData.id_medico);
@@ -44,6 +51,8 @@ export default function IniciarSesion() {
       }
     } catch (error) {
       alert(error.message || "Error al iniciar sesión");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,35 +62,52 @@ export default function IniciarSesion() {
         <img src={imgLogin} alt="Imagen Login" />
       </div>
 
-      <form className="login-formulario" onSubmit={handleSubmit}>
-        <h2 className="login-titulo">Iniciar Sesión</h2>
+      <div className="columna-login">
+        <button
+          type="button"
+          className="login-volver"
+          onClick={handleRegresar}
+          aria-label="Volver al home"
+        >
+          <FontAwesomeIcon icon={faArrowLeft} size="lg" /> Volver al home
+        </button>
 
-        <label htmlFor="username" className="login-label">Usuario</label>
-        <input
-          type="text"
-          id="username"
-          className="login-input"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
+        <form className="login-formulario" onSubmit={handleSubmit}>
+          <h2 className="login-titulo">Iniciar Sesión</h2>
 
-        <label htmlFor="contrasena" className="login-label">Contraseña</label>
-        <input
-          type="password"
-          id="contrasena"
-          className="login-input"
-          value={contrasena}
-          onChange={(e) => setContrasena(e.target.value)}
-          required
-        />
+          <label htmlFor="username" className="login-label">Usuario</label>
+          <input
+            type="text"
+            id="username"
+            className="login-input"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            disabled={loading}
+            autoComplete="username"
+          />
 
-        <button type="submit" className="login-boton">Entrar</button>
+          <label htmlFor="contrasena" className="login-label">Contraseña</label>
+          <input
+            type="password"
+            id="contrasena"
+            className="login-input"
+            value={contrasena}
+            onChange={(e) => setContrasena(e.target.value)}
+            required
+            disabled={loading}
+            autoComplete="current-password"
+          />
 
-        <div className="login-registrate">
-          No estás registrado? <span onClick={() => navigate("/registro")}>Regístrate</span>.
-        </div>
-      </form>
+          <button type="submit" className="login-boton" disabled={loading}>
+            {loading ? "Ingresando..." : "Entrar"}
+          </button>
+
+          <div className="login-registrate">
+            No estás registrado? <span onClick={() => navigate("/registro")} tabIndex={0} role="button" onKeyPress={(e) => { if (e.key === 'Enter') navigate("/registro") }} >Regístrate</span>.
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
