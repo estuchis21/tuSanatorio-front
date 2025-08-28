@@ -68,6 +68,15 @@ export const getEspecialidadesPorMedico = async (id_medico) => {
 }
 
 
+export const getMedicosPorEspecialidad = async (id_especialidad) => {
+  try{
+    const res = await axios.get(`${API_URL}/getMedicosPorEspecialidad/${id_especialidad}`);
+    return res.data;
+  }
+  catch(error){
+    throw new Error("Error al obtener medicos por especialidad: " + (error.response?.data?.error || error.message));
+  }
+}
 
 // Obtener id_paciente por id_usuario
 export const getPacienteByUsuarioId = async (id_usuario) => {

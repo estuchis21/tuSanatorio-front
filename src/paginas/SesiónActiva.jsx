@@ -1,67 +1,65 @@
 import { useEffect, useState } from "react";
-import "../estilos/SesionActiva.css";
-import { getEspecialidades } from "../servicios/servicioAuth";
+import { getEspecialidades, getMedicosPorEspecialidad } from "../servicios/servicioAuth";
 
 export default function SesionActiva() {
-  const [showWelcome, setShowWelcome] = useState(true);
-  const [showCartilla, setShowCartilla] = useState(false);
   const [especialidades, setEspecialidades] = useState([]);
+  const [idEspecialidad, setIdEspecialidad] = useState("");
+  const [medicos, setMedicos] = useState([]);
 
-  // --- Traer especialidades desde la API ---
+  // Cargar especialidades al montar el componente
   useEffect(() => {
     const fetchEspecialidades = async () => {
       try {
         const data = await getEspecialidades();
-        // Asegurarse que cada especialidad tenga un array de médicos
-        const formatted = data.map((esp) => ({
-          ...esp,
-          medicos: esp.medicos || [], 
-        }));
-        setEspecialidades(formatted);
-      } catch (err) {
-        console.error("Error al cargar especialidades:", err);
+        setEspecialidades(data);
+      } catch (error) {
+        console.error("Error al obtener especialidades:", error);
       }
     };
     fetchEspecialidades();
   }, []);
 
-  // --- Controlar la bienvenida ---
+  // Cargar médicos cada vez que se selecciona una especialidad
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowWelcome(false);
-      setShowCartilla(true);
-    }, 3000); 
-    return () => clearTimeout(timer);
-  }, []);
+    if (!idEspecialidad) return;
+
+    const fetchMedicos = async () => {
+      try {
+        const data = await getMedicosPorEspecialidad(Number(idEspecialidad));
+        setMedicos(data);
+      } catch (error) {
+        console.error("Error al obtener médicos:", error);
+        setMedicos([]);
+      }
+    };
+
+    fetchMedicos();
+  }, [idEspecialidad]);
 
   return (
-    <div className="pagina-medica">
-      {showWelcome && (
-        <div className="bienvenida fade-in">
-          <h2>¡Bienvenido a tu Sanatorio!</h2>
-          <p>Cuidamos tu salud siempre</p>
-        </div>
-      )}
+    <div>
+      <label>Especialidad:</label>
+      <select
+        value={idEspecialidad}
+        onChange={(e) => setIdEspecialidad(e.target.value)}
+      >
+        <option value="">-- Seleccione --</option>
+        {especialidades.map((esp) => (
+          <option key={esp.id_especialidad} value={esp.id_especialidad}>
+            {esp.nombre}
+          </option>
+        ))}
+      </select>
 
-      {showCartilla && (
-        <div className="cartilla-container fade-in-soft">
-          <h2 className="cartilla-titulo">Cartilla Médica</h2>
-          <div className="cartilla visible">
-            {especialidades.map((esp, idx) => (
-              <div key={idx} className="especialidad">
-                <h3>{esp.nombre}</h3>
-                <ul>
-                  {esp.medicos.length > 0 ? (
-                    esp.medicos.map((med, i) => <li key={i}>{med}</li>)
-                  ) : (
-                    <li>No hay médicos cargados</li>
-                  )}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      <label>Médicos:</label>
+      <select>
+        <option value="">-- Seleccione --</option>
+        {medicos.map((med) => (
+          <option key={med.id_medico} value={med.id_medico}>
+            {med.nombres} {med.apellido}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }
