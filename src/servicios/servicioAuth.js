@@ -97,3 +97,13 @@ export const getMedicoByUsuarioId = async (id_usuario) => {
     throw new Error("Error al obtener id_medico: " + (error.response?.data?.error || error.message));
   }
 };
+
+export const getHorariosPorMedico = async (id_medico) => {
+  try {
+    const response = await axios.get(`${API_URL}/horarios/${id_medico}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener horarios por médico:", error);
+    throw new Error(error.response?.data?.error || "Error al obtener horarios por médico");
+  }
+};

@@ -1,97 +1,40 @@
 // src/paginas/SacarTurno.jsx
-import React, { useEffect, useState } from "react";
-import {asignarTurno} from "../servicios/servicioTurnos";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import "../estilos/SacarTurno.css";
 
 export default function SacarTurno() {
-  const [especialidades, setEspecialidades] = useState([]);
-  const [medicos, setMedicos] = useState([]);
-  const [turnos, setTurnos] = useState([]);
+  const location = useLocation();
+  const { medico, especialidad, horario, fecha } = location.state || {}; // evitar undefined
+  const [obraSocial, setObraSocial] = useState("");
 
-  const [idEspecialidad, setIdEspecialidad] = useState("");
-  const [idMedico, setIdMedico] = useState("");
-  const [fecha, setFecha] = useState("");
-  const [horaSeleccionada, setHoraSeleccionada] = useState("");
-
-  // Cargar especialidades al iniciar
-  useEffect(() => {
-    obtenerEspecialidades().then(res => setEspecialidades(res.data));
-  }, []);
-
-  // Cargar médicos cuando cambia la especialidad
-  useEffect(() => {
-    if (idEspecialidad) {
-      obtenerMedicosPorEspecialidad(idEspecialidad).then(res => setMedicos(res.data));
-    } else {
-      setMedicos([]);
-    }
-  }, [idEspecialidad]);
-
-  // Cargar turnos cuando cambia médico y fecha
-  useEffect(() => {
-    if (idMedico && fecha) {
-      obtenerTurnosDisponibles(idMedico, fecha).then(res => setTurnos(res.data));
-    } else {
-      setTurnos([]);
-    }
-  }, [idMedico, fecha]);
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      await reservarTurno({
-        idTurno: horaSeleccionada,
-        idPaciente: JSON.parse(localStorage.getItem("usuario")).id,
-        idObraSocial: 1 // por ahora se puede dejar fijo
-      });
-      alert("Turno reservado exitosamente");
-    } catch (err) {
-      console.error(err);
-      alert("Error al reservar turno");
-    }
+    // lógica para reservar el turno usando:
+    // medico.id_medico, especialidad.id_especialidad, fecha, horario.id_turno, obraSocial
   };
+
+  if (!medico || !especialidad || !horario || !fecha) {
+    return <p>No hay datos del turno. Volvé a seleccionar un horario.</p>;
+  }
 
   return (
     <div className="sacar-turno-contenedor">
-      <h2>Solicitar un Turno</h2>
+      <h2>Confirmar Turno</h2>
       <form className="sacar-turno-formulario" onSubmit={handleSubmit}>
-        <label>
-          Especialidad:
-          <select value={idEspecialidad} onChange={(e) => setIdEspecialidad(e.target.value)} required>
-            <option value="">Seleccionar</option>
-            {especialidades.map((esp) => (
-              <option key={esp.id_especialidad} value={esp.id_especialidad}>{esp.nombre}</option>
-            ))}
-          </select>
-        </label>
+        <p><b>Especialidad:</b> {especialidad.nombre}</p>
+        <p><b>Médico:</b> {medico.nombres} {medico.apellido}</p>
+        <p><b>Fecha:</b> {fecha}</p>
+        <p><b>Horario:</b> {horario.hora_inicio} - {horario.hora_fin}</p>
 
         <label>
-          Médico:
-          <select value={idMedico} onChange={(e) => setIdMedico(e.target.value)} required>
-            <option value="">Seleccionar</option>
-            {medicos.map((med) => (
-              <option key={med.id_medico} value={med.id_medico}>
-                {med.nombres} {med.apellido}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label>
-          Fecha:
-          <input type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} required />
-        </label>
-
-        <label>
-          Horario:
-          <select value={horaSeleccionada} onChange={(e) => setHoraSeleccionada(e.target.value)} required>
-            <option value="">Seleccionar</option>
-            {turnos.map((turno) => (
-              <option key={turno.id_turno} value={turno.id_turno}>
-                {turno.hora_inicio} - {turno.hora_fin}
-              </option>
-            ))}
-          </select>
+          Obra Social:
+          <input
+            type="text"
+            value={obraSocial}
+            onChange={(e) => setObraSocial(e.target.value)}
+            required
+          />
         </label>
 
         <button type="submit">Confirmar Turno</button>

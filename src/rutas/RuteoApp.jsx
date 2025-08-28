@@ -8,7 +8,7 @@ import Medico from "../paginas/Medico";
 import MisTurnos from "../paginas/MisTurnos";
 import Registro from "../paginas/Registro";
 import TurnosMedico from "../paginas/TurnosMedico";
-
+import SacarTurno from '../paginas/SacarTurno';
 // Navbar
 import Navbar from "../components/NavBar"; // asegúrate de que exista en components
 import SesiónActiva from "../paginas/SesiónActiva";
@@ -40,7 +40,8 @@ function AppContent() {
         <Route path="/home" element={<Home />} />
 
         {/* Rutas del paciente */}
-        <Route path="/paciente/mis-turnos" element={<MisTurnos />} />
+        <Route path="/sacarTurno" element={<SacarTurno/>}/>
+        <Route path="/MisTurnos" element={<MisTurnos />} />
         <Route path="/sesionActiva" element={<SesiónActiva />} />
 
         {/* Rutas del médico */}
