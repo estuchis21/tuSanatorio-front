@@ -21,6 +21,7 @@ export default function SesionActiva() {
 
   // Cargar médicos cada vez que se selecciona una especialidad
   useEffect(() => {
+    if(!medicos) return;
     if (!idEspecialidad) return;
 
     const fetchMedicos = async () => {
