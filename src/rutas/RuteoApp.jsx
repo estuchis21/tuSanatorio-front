@@ -7,11 +7,11 @@ import Inicio from "../paginas/Inicio";
 import Medico from "../paginas/Medico";
 import MisTurnos from "../paginas/MisTurnos";
 import Registro from "../paginas/Registro";
-import SacarTurno from "../paginas/SacarTurno";
 import TurnosMedico from "../paginas/TurnosMedico";
 
 // Navbar
 import Navbar from "../components/NavBar"; // asegúrate de que exista en components
+import SesiónActiva from "../paginas/SesiónActiva";
 
 function RuteoApp() {
   return (
@@ -41,7 +41,7 @@ function AppContent() {
 
         {/* Rutas del paciente */}
         <Route path="/paciente/mis-turnos" element={<MisTurnos />} />
-        <Route path="/paciente/sacar-turno" element={<SacarTurno />} />
+        <Route path="/sesionActiva" element={<SesiónActiva />} />
 
         {/* Rutas del médico */}
         <Route path="/medico" element={<Medico />} />
