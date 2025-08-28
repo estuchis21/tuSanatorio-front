@@ -2,18 +2,19 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import '../estilos/SesionActiva.css';
+import "../estilos/SesionActiva.css";
 import { getEspecialidades, getMedicosPorEspecialidad } from "../servicios/servicioAuth";
 
 const MySwal = withReactContent(Swal);
 
-export default function SesionActiva({ id_paciente, id_obra_social }) { // <-- recibimos datos del paciente
+export default function SesionActiva({ id_paciente, id_obra_social }) {
   const navigate = useNavigate();
   const [especialidades, setEspecialidades] = useState([]);
   const [idEspecialidad, setIdEspecialidad] = useState("");
   const [medicos, setMedicos] = useState([]);
   const [cartillaVisible, setCartillaVisible] = useState(false);
 
+  // Cargar especialidades al iniciar
   useEffect(() => {
     const fetchEspecialidades = async () => {
       try {
@@ -27,6 +28,7 @@ export default function SesionActiva({ id_paciente, id_obra_social }) { // <-- r
     fetchEspecialidades();
   }, []);
 
+  // Cargar médicos cuando cambia la especialidad
   useEffect(() => {
     if (!idEspecialidad) {
       setMedicos([]);
@@ -47,20 +49,20 @@ export default function SesionActiva({ id_paciente, id_obra_social }) { // <-- r
   const confirmarTurno = async (medico) => {
     const result = await MySwal.fire({
       title: `¿Deseas sacar un turno con ${medico.nombres} ${medico.apellido}?`,
-      icon: 'question',
+      icon: "question",
       showCancelButton: true,
-      confirmButtonText: 'Sí, sacar turno',
-      cancelButtonText: 'No'
+      confirmButtonText: "Sí, sacar turno",
+      cancelButtonText: "No"
     });
 
     if (result.isConfirmed) {
-      // Redirigir a sacarTurno pasando los datos necesarios
-      navigate("/sacarTurno", { 
-        state: { 
-          id_medico: medico.id_medico,
+      navigate("/sacarTurno", {
+        state: {
+          medico,
+          especialidad: especialidades.find(e => e.id_especialidad === Number(idEspecialidad)),
           id_paciente,
           id_obra_social
-        } 
+        }
       });
     }
   };

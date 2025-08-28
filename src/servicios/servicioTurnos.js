@@ -64,3 +64,15 @@ export const obtenerTurnosDisponibles = async (id_medico) => {
     throw new Error('Error al obtener todos los turnos disponibles de un médico' + (error.response?.data?.message || error.message));
   }
 }
+
+export const obtenerObraSocial = async (id_obra_social) => {
+  try {
+    const res = await axios.get(`${API_URL}/getObrasSociales/${id_obra_social}`);
+    return res.data;
+  } catch (error) {
+    throw new Error(
+      "Error al obtener la obra social: " +
+      (error.response?.data?.error || error.message)
+    );
+  }
+};
