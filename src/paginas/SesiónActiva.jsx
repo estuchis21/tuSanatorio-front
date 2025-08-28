@@ -1,22 +1,36 @@
 import { useEffect, useState } from "react";
 import "../estilos/SesionActiva.css";
+import { getEspecialidades } from "../servicios/servicioAuth";
 
 export default function SesionActiva() {
   const [showWelcome, setShowWelcome] = useState(true);
   const [showCartilla, setShowCartilla] = useState(false);
+  const [especialidades, setEspecialidades] = useState([]);
 
-  const [especialidades, setEspecialidades] = useState([
-    { nombre: "Cardiología", medicos: ["Dr. Juan Pérez", "Dra. María López"] },
-    { nombre: "Pediatría", medicos: ["Dr. Carlos Martínez", "Dra. Ana Torres"] },
-    { nombre: "Dermatología", medicos: ["Dra. Laura Fernández", "Dr. Martín Gómez"] },
-    { nombre: "Neurología", medicos: ["Dr. Pedro Sánchez", "Dra. Clara Ruiz"] },
-  ]);
+  // --- Traer especialidades desde la API ---
+  useEffect(() => {
+    const fetchEspecialidades = async () => {
+      try {
+        const data = await getEspecialidades();
+        // Asegurarse que cada especialidad tenga un array de médicos
+        const formatted = data.map((esp) => ({
+          ...esp,
+          medicos: esp.medicos || [], 
+        }));
+        setEspecialidades(formatted);
+      } catch (err) {
+        console.error("Error al cargar especialidades:", err);
+      }
+    };
+    fetchEspecialidades();
+  }, []);
 
+  // --- Controlar la bienvenida ---
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowWelcome(false);
       setShowCartilla(true);
-    }, 3000); // 3 segundos de bienvenida
+    }, 3000); 
     return () => clearTimeout(timer);
   }, []);
 
@@ -37,9 +51,11 @@ export default function SesionActiva() {
               <div key={idx} className="especialidad">
                 <h3>{esp.nombre}</h3>
                 <ul>
-                  {esp.medicos.map((med, i) => (
-                    <li key={i}>{med}</li>
-                  ))}
+                  {esp.medicos.length > 0 ? (
+                    esp.medicos.map((med, i) => <li key={i}>{med}</li>)
+                  ) : (
+                    <li>No hay médicos cargados</li>
+                  )}
                 </ul>
               </div>
             ))}
