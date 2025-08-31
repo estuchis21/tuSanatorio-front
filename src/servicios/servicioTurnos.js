@@ -21,8 +21,6 @@ export const getTurnos = async (id_paciente) => {
   }
 };
 
-
-
 export const historialTurnosPac = async (id_paciente) => {
   try{
     const res = await axios.get(`${API_URL}/historialTurnosPaciente/${id_paciente}`);

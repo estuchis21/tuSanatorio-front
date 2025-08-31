@@ -7,8 +7,8 @@ import Inicio from "../paginas/Inicio";
 import Medico from "../paginas/Medico";
 import MisTurnos from "../paginas/MisTurnos";
 import Registro from "../paginas/Registro";
-import TurnosMedico from "../paginas/TurnosMedico";
 import SacarTurno from '../paginas/SacarTurno';
+import TurnosMedico from "../paginas/TurnosMedico";
 // Navbar
 import Navbar from "../components/NavBar"; // asegúrate de que exista en components
 import SesiónActiva from "../paginas/SesiónActiva";
