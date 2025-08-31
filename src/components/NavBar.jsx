@@ -9,8 +9,7 @@ export default function Navbar({ isPaciente }) {
         <li><a href="/login">Login</a></li>
         {isPaciente && (
           <>
-            <li><a href="/paciente/mis-turnos">Ver Turnos</a></li>
-            <li><a href="/paciente/sacar-turno">Crear Turno</a></li>
+            <li><a href="/MisTurnos">Ver Turnos</a></li>
           </>
         )}
       </ul>

@@ -55,9 +55,9 @@ export const deleteTurno = async ({ id_paciente, id_turno_asignado }) => {
 };
 
 
-export const obtenerTurnosDisponibles = async (id_medico) => {
+export const obtenerTurnosDisponibles = async (id_medico, id_especialidad) => {
   try{
-    const res = await axios.get(`${API_URL}/getTurnosDisponibles/${id_medico}`);
+    const res = await axios.get(`${API_URL}/getTurnosDisponibles/${id_medico}/${id_especialidad}`);
     return res.data;
   }
   catch(error){
@@ -65,9 +65,9 @@ export const obtenerTurnosDisponibles = async (id_medico) => {
   }
 }
 
-export const obtenerObraSocial = async (id_obra_social) => {
+export const obtenerObraSocial = async () => {
   try {
-    const res = await axios.get(`${API_URL}/getObrasSociales/${id_obra_social}`);
+    const res = await axios.get(`${API_URL}/getObrasSociales`);
     return res.data;
   } catch (error) {
     throw new Error(

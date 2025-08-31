@@ -1,24 +1,35 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import "../estilos/SacarTurno.css";
-import { obtenerObraSocial, obtenerTurnosDisponibles } from "../servicios/servicioTurnos";
+import { asignarTurno, obtenerObraSocial, obtenerTurnosDisponibles } from "../servicios/servicioTurnos";
+
+const MySwal = withReactContent(Swal);
 
 export default function SacarTurno() {
   const location = useLocation();
-  const { medico, especialidad, id_paciente, id_obra_social } = location.state || {};
+  const navigate = useNavigate();
+
+  const id_paciente = location.state?.id_paciente || localStorage.getItem("id_paciente");
+  const id_obra_social = location.state?.id_obra_social || localStorage.getItem("id_obra_social");
+  const { medico, especialidad } = location.state || {};
+
   const [turnosDisponibles, setTurnosDisponibles] = useState([]);
   const [idTurnoSeleccionado, setIdTurnoSeleccionado] = useState("");
   const [obrasSociales, setObrasSociales] = useState([]);
   const [idObraSeleccionada, setIdObraSeleccionada] = useState(id_obra_social || "");
   const [cargandoTurnos, setCargandoTurnos] = useState(true);
 
-  // Cargar turnos disponibles
   useEffect(() => {
     const fetchTurnos = async () => {
-      if (!medico) return;
+      if (!medico || !especialidad) return;
       setCargandoTurnos(true);
       try {
-        const data = await obtenerTurnosDisponibles(medico.id_medico);
+        const data = await obtenerTurnosDisponibles(
+          medico.id_medico,
+          especialidad.id_especialidad
+        );
         setTurnosDisponibles(data);
       } catch (error) {
         console.error("Error al obtener turnos disponibles:", error);
@@ -27,29 +38,25 @@ export default function SacarTurno() {
       }
     };
     fetchTurnos();
-  }, [medico]);
+  }, [medico, especialidad]);
 
-  // Cargar obras sociales del paciente
   useEffect(() => {
     const fetchObras = async () => {
-      if (!id_obra_social) return;
       try {
-        // Si devolverá varias opciones, manejar como array
-        const data = await obtenerObraSocial(id_obra_social);
-        const lista = Array.isArray(data) ? data : [data];
-        setObrasSociales(lista);
+        const data = await obtenerObraSocial();
+        setObrasSociales(Array.isArray(data) ? data : [data]);
       } catch (error) {
-        console.error("Error al obtener obra social:", error);
+        console.error("Error al obtener obras sociales:", error);
       }
     };
     fetchObras();
   }, [id_obra_social]);
 
-  if (!medico || !especialidad) {
-    return <p>No hay datos del turno. Volvé a seleccionar un médico.</p>;
+  if (!medico || !especialidad || !id_paciente) {
+    return <p>No hay datos del turno o paciente. Volvé a seleccionar un médico.</p>;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const turnoSeleccionado = turnosDisponibles.find(
@@ -61,26 +68,58 @@ export default function SacarTurno() {
     );
 
     if (!turnoSeleccionado) {
-      alert("Debes seleccionar un turno válido");
-      return;
+      return MySwal.fire({
+        title: "Error",
+        text: "Debes seleccionar un turno válido",
+        icon: "error"
+      });
     }
 
     if (!obraSeleccionada) {
-      alert("Debes seleccionar una obra social válida");
-      return;
+      return MySwal.fire({
+        title: "Error",
+        text: "Debes seleccionar una obra social válida",
+        icon: "error"
+      });
     }
 
-    console.log({
-      medico,
-      especialidad,
-      id_turno: turnoSeleccionado.id_turno,
-      fecha: turnoSeleccionado.fecha_turno,
-      horario: `${turnoSeleccionado.hora_inicio} - ${turnoSeleccionado.hora_fin}`,
-      obraSocial: obraSeleccionada,
-      id_paciente
-    });
+    const datosTurno = {
+      id_paciente: Number(id_paciente),
+      id_medico: Number(medico.id_medico),
+      id_turno: Number(turnoSeleccionado.id_turno),
+      id_obra_social: Number(obraSeleccionada.id_obra_social),
+      fecha_turno: turnoSeleccionado.fecha_turno,
+      horario: `${turnoSeleccionado.hora_inicio} - ${turnoSeleccionado.hora_fin}`
+    };
 
-    // Aquí va la llamada a la API para reservar el turno
+    try {
+      await asignarTurno(datosTurno);
+
+      MySwal.fire({
+        title: 'Turno asignado ✅',
+        html: (
+          <div>
+            <p><b>Paciente:</b> {localStorage.getItem("nombre_paciente") || "Tú"}</p>
+            <p><b>Especialidad:</b> {especialidad.nombre}</p>
+            <p><b>Médico:</b> {medico.nombres} {medico.apellido}</p>
+            <p><b>Fecha:</b> {turnoSeleccionado.fecha_turno}</p>
+            <p><b>Horario:</b> {turnoSeleccionado.hora_inicio} - {turnoSeleccionado.hora_fin}</p>
+            <p><b>Obra Social:</b> {obraSeleccionada.obra_social}</p>
+          </div>
+        ),
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+      });
+      navigate('/MisTurnos');
+
+    } catch (error) {
+      console.error("Error al asignar turno al paciente: ", error);
+      MySwal.fire({
+        title: "Error",
+        text: "No se pudo asignar el turno ❌",
+        icon: "error"
+      });
+    }
   };
 
   return (

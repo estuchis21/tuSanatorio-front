@@ -1,8 +1,12 @@
 // src/paginas/MisTurnos.jsx
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import "../estilos/MisTurnos.css";
 import "../estilos/Paciente.css";
-import { deleteTurno, getTurnos } from "../servicios/servicioTurnos";
+import { getTurnos } from "../servicios/servicioTurnos";
+
+const MySwal = withReactContent(Swal);
 
 export default function MisTurnos() {
   const [turnos, setTurnos] = useState([]);
@@ -26,40 +30,35 @@ export default function MisTurnos() {
         setTurnos([]);
         return;
       }
-      setTurnos(data.turnos); // Ojo acá: data.turnos es el array de turnos
+      setTurnos(data.turnos);
       setMensaje("");
     } catch (error) {
       setMensaje(error.message);
     }
   };
-  const puedeCancelarTurno = (fecha, hora) => {
-    const fechaHoraTurno = new Date(fecha);
-    // En tu respuesta hora_inicio y hora_fin vienen en formato de fecha con tiempo 1970-01-01T...
-    // Pero podés tomar solo la hora para calcular bien, o mejor usar fecha + hora.
-    // Para simplificar asumimos la fecha completa en fechaHoraTurno.
 
-    const ahora = new Date();
-    const diffHoras = (fechaHoraTurno - ahora) / (1000 * 60 * 60);
-    return diffHoras >= 12;
-  };
-
-  const handleCancelar = async (id_turno_asignado) => {
-    if (!window.confirm("¿Seguro que querés cancelar este turno?")) return;
-
-    try {
-      await deleteTurno({ id_paciente, id_turno_asignado });
-      setMensaje("Turno cancelado con éxito.");
-      cargarTurnos();
-    } catch (error) {
-      setMensaje(error.message);
-    }
+  const mostrarTurno = (turno) => {
+    MySwal.fire({
+      title: 'Detalle del Turno',
+      html: (
+        <div>
+          <p><b>Especialidad:</b> {turno.especialidad}</p>
+          <p><b>Médico:</b> {turno.medico}</p>
+          <p><b>Fecha:</b> {new Date(turno.fecha_turno).toLocaleDateString()}</p>
+          <p><b>Horario:</b> {turno.hora_inicio.slice(11,16)} - {turno.hora_fin.slice(11,16)}</p>
+          <p><b>Obra Social:</b> {turno.obra_social}</p>
+        </div>
+      ),
+      icon: 'info',
+      confirmButtonText: 'Cerrar'
+    });
   };
 
   return (
     <div className="pagina-paciente">
       <div className="inicio">
         <h2>Bienvenido/a Paciente</h2>
-        <p>Aquí podrás ver, sacar o modificar tus turnos.</p>
+        <p>Aquí podrás ver tus turnos.</p>
       </div>
 
       {mensaje && <p className="mensaje">{mensaje}</p>}
@@ -72,7 +71,6 @@ export default function MisTurnos() {
               <th>Fecha</th>
               <th>Hora</th>
               <th>Especialidad</th>
-              {/* Eliminamos las columnas Estado y Acciones porque no hay */}
             </tr>
           </thead>
           <tbody>
@@ -82,17 +80,16 @@ export default function MisTurnos() {
               </tr>
             ) : (
               turnos.map((turno) => (
-                <tr key={turno.id_turno_asignado}>
+                <tr key={turno.id_turno_asignado} onClick={() => mostrarTurno(turno)} style={{ cursor: 'pointer' }}>
                   <td>{new Date(turno.fecha_turno).toLocaleDateString()}</td>
-                  <td>
-                    {turno.hora_inicio.slice(11, 16)} - {turno.hora_fin.slice(11, 16)}
-                  </td>
+                  <td>{turno.hora_inicio.slice(11,16)} - {turno.hora_fin.slice(11,16)}</td>
                   <td>{turno.especialidad}</td>
                 </tr>
               ))
             )}
           </tbody>
         </table>
+        <p style={{ marginTop: '10px', fontStyle: 'italic' }}>Hacé clic en un turno para ver los detalles</p>
       </div>
     </div>
   );

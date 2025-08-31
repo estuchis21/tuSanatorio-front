@@ -14,6 +14,9 @@ export default function SesionActiva({ id_paciente, id_obra_social }) {
   const [medicos, setMedicos] = useState([]);
   const [cartillaVisible, setCartillaVisible] = useState(false);
 
+  // ✅ Definir el idPaciente dentro del componente
+  const idPaciente = id_paciente || localStorage.getItem("id_paciente");
+
   // Cargar especialidades al iniciar
   useEffect(() => {
     const fetchEspecialidades = async () => {
@@ -60,7 +63,7 @@ export default function SesionActiva({ id_paciente, id_obra_social }) {
         state: {
           medico,
           especialidad: especialidades.find(e => e.id_especialidad === Number(idEspecialidad)),
-          id_paciente,
+          id_paciente: idPaciente,   // 👈 usar la variable ya corregida
           id_obra_social
         }
       });
@@ -87,7 +90,11 @@ export default function SesionActiva({ id_paciente, id_obra_social }) {
 
         <div className="medicos-container">
           {medicos.map((med) => (
-            <div key={med.id_medico} className="medico fade-in-soft" onClick={() => confirmarTurno(med)}>
+            <div 
+              key={med.id_medico} 
+              className="medico fade-in-soft" 
+              onClick={() => confirmarTurno(med)}
+            >
               <h4>{med.nombres} {med.apellido}</h4>
             </div>
           ))}
