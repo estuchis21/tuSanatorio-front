@@ -1,23 +1,33 @@
+/* CONTENEDOR PRINCIPAL */
 .inicio-contenedor {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
-  padding: 2rem;
   background: linear-gradient(145deg, #0e048f, #1206F5);
   color: #f0f8ff;
   text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 2rem;
 }
 
+/* HEADER */
+.header {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* LOGO */
 .inicio-logo {
   width: 20vw;
-  height: auto;
+  max-width: 200px;
   margin-bottom: 1.5rem;
   animation: zoomIn 0.6s ease-in-out;
 }
 
+/* TITULOS Y SUBTITULOS */
 .inicio-titulo {
   font-size: 3rem;
   font-weight: bold;
@@ -35,6 +45,7 @@
   color: #f1f1f1;
 }
 
+/* BOTÓN */
 .inicio-boton {
   background-color: #ffffff;
   color: #1206F5;
@@ -53,52 +64,85 @@
   transform: scale(1.05);
 }
 
+/* SECCIONES HISTORIA Y BENEFICIOS */
+.inicio-historia, .inicio-beneficios {
+  margin: 40px 0;
+  padding: 30px 20px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  max-width: 800px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out;
+}
+
+/* TITULOS SECCIONALES */
+.historia-titulo {
+  font-size: 2rem;
+  color: #E0F7FA;
+  margin-bottom: 20px;
+}
+
+.historia-subtitulo {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.historia-texto {
+  font-size: 1rem;
+  color: #f0f8ff;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* LISTAS */
+.historia-milestones, .historia-beneficios {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.historia-milestones li, .historia-beneficios li {
+  margin-bottom: 12px;
+  font-size: 1rem;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.6s ease-out;
+}
+
+/* CLASES PARA ANIMAR AL SCROLL */
+.fade-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-on-scroll.visible li {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ANIMACIONES */
+@keyframes zoomIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* MEDIA QUERIES */
 @media (max-width: 768px) {
-  .inicio-titulo {
-    font-size: 2.2rem;
-  }
-
-  .inicio-subtitulo {
-    font-size: 1rem;
-  }
-
-  .inicio-boton {
-    font-size: 1rem;
-    padding: 0.6rem 1.5rem;
-  }
-
-  .inicio-logo {
-    width: 90px;
-  }
+  .inicio-titulo { font-size: 2.2rem; }
+  .inicio-subtitulo { font-size: 1rem; }
+  .inicio-boton { font-size: 1rem; padding: 0.6rem 1.5rem; }
+  .inicio-logo { width: 150px; }
+  .historia-titulo { font-size: 1.5rem; }
 }
 
 @media (max-width: 480px) {
-  .inicio-titulo {
-    font-size: 1.8rem;
-  }
-
-  .inicio-subtitulo {
-    font-size: 0.95rem;
-  }
-
-  .inicio-boton {
-    font-size: 0.95rem;
-    padding: 0.5rem 1.2rem;
-  }
-
-  .inicio-logo {
-    width: 70px;
-  }
-}
-
-/* Animación para el logo */
-@keyframes zoomIn {
-  from {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+  .inicio-titulo { font-size: 1.8rem; }
+  .inicio-subtitulo { font-size: 0.95rem; }
+  .inicio-boton { font-size: 0.95rem; padding: 0.5rem 1.2rem; }
+  .inicio-logo { width: 120px; }
+  .historia-titulo { font-size: 1.3rem; }
+  .historia-texto, .historia-milestones li, .historia-beneficios li { font-size: 0.9rem; }
 }

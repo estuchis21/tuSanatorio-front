@@ -47,6 +47,13 @@ export const login = async (username, contrasena) => {
   }
 };
 
+export const getUserById = async (id_usuario) => {
+  const res = await axios.get(`${API_URL}/getUserById/${id_usuario}`);
+  return res.data;
+};
+
+
+
 export const getEspecialidades = async () => {
   try {
     const res = await axios.get(`${API_URL}/getEspecialidades`);

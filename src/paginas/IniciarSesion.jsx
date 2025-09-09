@@ -27,6 +27,7 @@ export default function IniciarSesion() {
       localStorage.setItem("token", res.token);
       localStorage.setItem("id_usuario", usuario.id_usuario);
       localStorage.setItem("id_rol", usuario.id_rol);
+      localStorage.setItem("nombres", usuario.nombres);
 
       if (usuario.id_rol === 1) {
         const pacienteData = await getPacienteByUsuarioId(usuario.id_usuario);
