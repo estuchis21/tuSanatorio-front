@@ -8,18 +8,20 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-logo">TuSanatorio</div>
       <ul className="navbar-links">
-        <li><a href="/login">Login</a></li>
+        {/* <li><a href="/login">Login</a></li> */}
 
         {idRol === 1 ? (
           // Opciones para paciente
           <>
+            <li><a href="/sesionActiva">Inicio</a></li>
             <li><a href="/MisTurnos">Ver Turnos</a></li>
-            <li><a href="/sesionActiva">Sesión Activa</a></li>
+            <li><a href="/historiaClinica-paciente">Ver historias clínicas</a></li>
           </>
         ) : idRol === 2 ? (
           // Opciones para médico
           <>
             <li><a href="/medico/turnos">Ver turnos del médico</a></li>
+            <li><a href="/historiaClinica-paciente">Ver historias clínicas</a></li>
           </>
         ) : null}
       </ul>

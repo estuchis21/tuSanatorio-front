@@ -114,3 +114,13 @@ export const getHorariosPorMedico = async (id_medico) => {
     throw new Error(error.response?.data?.error || "Error al obtener horarios por médico");
   }
 };
+
+export const getObrasPorMedico = async (id_medico) => {
+  try{
+    const response = await axios.get(`${API_URL}/getObrasPorMedico/${id_medico}`);
+    return response.data;
+  }
+  catch(error){
+    throw new Error(error.response?.data?.error || "Error al obtener las obras sociales por médico")
+  }
+}
