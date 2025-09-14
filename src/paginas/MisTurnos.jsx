@@ -45,7 +45,6 @@ export default function MisTurnos() {
         setMensaje((data.turnos || []).length === 0 ? "No tenés turnos asignados." : "");
       } catch (error) {
         console.error("Error al cargar turnos:", error);
-        setMensaje("Error al cargar los turnos. Intenta nuevamente.");
       } finally {
         setLoading(false);
       }
