@@ -124,3 +124,13 @@ export const getObrasPorMedico = async (id_medico) => {
     throw new Error(error.response?.data?.error || "Error al obtener las obras sociales por médico")
   }
 }
+
+export const getObrasPorPaciente = async (id_paciente) => {
+  try{
+    const response = await axios.get(`${API_URL}/getObrasPorPaciente/${id_paciente}`);
+    return response.data;
+  }
+  catch(error){
+    throw new Error(error.response?.data?.error || "Error al obtener las obras sociales por paciente")
+  }
+}
