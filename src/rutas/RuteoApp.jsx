@@ -1,19 +1,39 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 // Páginas
-import Inicio from "../paginas/Inicio";
-import IniciarSesion from "../paginas/IniciarSesion";
-import Registro from "../paginas/Registro";
 import Home from "../paginas/Home";
+import IniciarSesion from "../paginas/IniciarSesion";
+import Inicio from "../paginas/Inicio";
 import Medico from "../paginas/Medico";
 import MisTurnos from "../paginas/MisTurnos";
-import SacarTurno from "../paginas/SacarTurno";
+import Registro from "../paginas/Registro";
+import SacarTurno from '../paginas/SacarTurno';
 import TurnosMedico from "../paginas/TurnosMedico";
+// Navbar
+import Navbar from "../components/NavBar"; // asegúrate de que exista en components
+import SesiónActiva from "../paginas/SesiónActiva";
+import HistoriasClinicas from "../paginas/HistoriasClinicasPaciente";
 
-export default function RuteoApp() {
+function RuteoApp() {
   return (
     <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
+  );
+}
+
+function AppContent() {
+  const location = useLocation();
+
+  // Rutas donde NO debe aparecer el navbar
+  const hiddenNavbarRoutes = ["/", "/login", "/registro", "/home"];
+  const shouldShowNavbar = !hiddenNavbarRoutes.includes(location.pathname);
+
+  const isPaciente = true; // luego lo manejás según el rol real (auth)
+
+  return (
+    <>
+      {shouldShowNavbar && <Navbar isPaciente={isPaciente} />}
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/login" element={<IniciarSesion />} />
@@ -21,9 +41,10 @@ export default function RuteoApp() {
         <Route path="/home" element={<Home />} />
 
         {/* Rutas del paciente */}
-        {/* <Route path="/paciente" element={<Paciente />} /> */}
-        <Route path="/paciente/mis-turnos" element={<MisTurnos />} />
-        <Route path="/paciente/sacar-turno" element={<SacarTurno />} />
+        <Route path="/sacarTurno" element={<SacarTurno/>}/>
+        <Route path="/MisTurnos" element={<MisTurnos />} />
+        <Route path="/sesionActiva" element={<SesiónActiva />} />
+        <Route path="/historiaClinica-paciente" element={<HistoriasClinicas />}></Route>
 
         {/* Rutas del médico */}
         <Route path="/medico" element={<Medico />} />
@@ -32,6 +53,8 @@ export default function RuteoApp() {
         {/* Ruta comodín */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
+
+export default RuteoApp;

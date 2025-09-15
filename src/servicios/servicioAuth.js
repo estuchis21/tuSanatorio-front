@@ -47,6 +47,13 @@ export const login = async (username, contrasena) => {
   }
 };
 
+export const getUserById = async (id_usuario) => {
+  const res = await axios.get(`${API_URL}/getUserById/${id_usuario}`);
+  return res.data;
+};
+
+
+
 export const getEspecialidades = async () => {
   try {
     const res = await axios.get(`${API_URL}/getEspecialidades`);
@@ -57,6 +64,26 @@ export const getEspecialidades = async () => {
 };
 
 
+export const getEspecialidadesPorMedico = async (id_medico) => {
+
+  try{
+    const res = await axios.get(`${API_URL}/getEspecialidadesPorMedico/${id_medico}`);
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al obtener especialiades por medico: " + (error.response?.data?.error || error.message));
+  }
+}
+
+
+export const getMedicosPorEspecialidad = async (id_especialidad) => {
+  try{
+    const res = await axios.get(`${API_URL}/getMedicosPorEspecialidad/${id_especialidad}`);
+    return res.data;
+  }
+  catch(error){
+    throw new Error("Error al obtener medicos por especialidad: " + (error.response?.data?.error || error.message));
+  }
+}
 
 // Obtener id_paciente por id_usuario
 export const getPacienteByUsuarioId = async (id_usuario) => {
@@ -77,3 +104,33 @@ export const getMedicoByUsuarioId = async (id_usuario) => {
     throw new Error("Error al obtener id_medico: " + (error.response?.data?.error || error.message));
   }
 };
+
+export const getHorariosPorMedico = async (id_medico) => {
+  try {
+    const response = await axios.get(`${API_URL}/horarios/${id_medico}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener horarios por médico:", error);
+    throw new Error(error.response?.data?.error || "Error al obtener horarios por médico");
+  }
+};
+
+export const getObrasPorMedico = async (id_medico) => {
+  try{
+    const response = await axios.get(`${API_URL}/getObrasPorMedico/${id_medico}`);
+    return response.data;
+  }
+  catch(error){
+    throw new Error(error.response?.data?.error || "Error al obtener las obras sociales por médico")
+  }
+}
+
+export const getObrasPorPaciente = async (id_paciente) => {
+  try{
+    const response = await axios.get(`${API_URL}/getObrasPorPaciente/${id_paciente}`);
+    return response.data;
+  }
+  catch(error){
+    throw new Error(error.response?.data?.error || "Error al obtener las obras sociales por paciente")
+  }
+}

@@ -27,6 +27,7 @@ export default function IniciarSesion() {
       localStorage.setItem("token", res.token);
       localStorage.setItem("id_usuario", usuario.id_usuario);
       localStorage.setItem("id_rol", usuario.id_rol);
+      localStorage.setItem("nombres", usuario.nombres);
 
       if (usuario.id_rol === 1) {
         const pacienteData = await getPacienteByUsuarioId(usuario.id_usuario);
@@ -36,7 +37,7 @@ export default function IniciarSesion() {
           return;
         }
         localStorage.setItem("id_paciente", pacienteData.id_paciente);
-        navigate("/paciente/mis-turnos");
+        navigate("/sesionActiva");
       } else if (usuario.id_rol === 2) {
         const medicoData = await getMedicoByUsuarioId(usuario.id_usuario);
         if (!medicoData.id_medico) {

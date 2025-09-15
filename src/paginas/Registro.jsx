@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../estilos/Registro.css";
 import { registrar } from "../servicios/servicioAuth";
 import { getEspecialidades } from "../servicios/servicioAuth";
+import { obtenerObraSocial } from "../servicios/servicioTurnos";
 import { useNavigate, Link } from "react-router-dom";
 import imgRegistro from "../assets/imgRegistro.jpg";
 
@@ -16,6 +17,8 @@ export default function Registro() {
   const [id_rol, setIdRol] = useState("");
   const [id_especialidad, setId_especialidad] = useState("");
   const [especialidades, setEspecialidades] = useState([]);
+  const [id_obra_social, setId_obra_social] = useState("");
+  const [obra_social, setObra_social] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
 
@@ -36,6 +39,20 @@ export default function Registro() {
     }
   }, [id_rol]);
 
+  useEffect(() => {
+    const fetchObrasSociales = async () => {
+      try {
+        const obras_sociales = await obtenerObraSocial();
+        setObra_social(obras_sociales);
+      } catch (err) {
+        console.error(err);
+        setErrorMsg("No se pudieron cargar las obras sociales");
+      }
+    };
+    fetchObrasSociales();
+  }, []); // <- vacío para que solo se ejecute al montar
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -49,6 +66,7 @@ export default function Registro() {
         telefono,
         email,
         id_rol,
+        id_obra_social
       };
 
       if (id_rol === 2) {
@@ -176,6 +194,22 @@ export default function Registro() {
               </select>
             </>
           )}
+
+          <label htmlFor="rol" className="registro-label">Obra social</label>
+            <select
+              id="obras"
+              className="registro-input"
+              value={id_obra_social}
+              onChange={(e) => setId_obra_social(parseInt(e.target.value))}
+              required
+            >
+              <option value="">Seleccionar rol</option>
+              {obra_social.map((obra) => (
+                <option key={obra.id_obra_social} value={obra.id_obra_social}>
+                  {obra.obra_social}
+                </option>
+              ))}
+            </select>
 
           <button type="submit" className="registro-boton">Registrarse</button>
 

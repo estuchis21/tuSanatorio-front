@@ -1,100 +1,177 @@
-// src/paginas/SacarTurno.jsx
-import React, { useEffect, useState } from "react";
-import {asignarTurno} from "../servicios/servicioTurnos";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import "../estilos/SacarTurno.css";
+import { getObrasPorMedico } from "../servicios/servicioAuth";
+import { asignarTurno, obtenerTurnosDisponibles } from "../servicios/servicioTurnos";
+
+const MySwal = withReactContent(Swal);
 
 export default function SacarTurno() {
-  const [especialidades, setEspecialidades] = useState([]);
-  const [medicos, setMedicos] = useState([]);
-  const [turnos, setTurnos] = useState([]);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const [idEspecialidad, setIdEspecialidad] = useState("");
-  const [idMedico, setIdMedico] = useState("");
-  const [fecha, setFecha] = useState("");
-  const [horaSeleccionada, setHoraSeleccionada] = useState("");
+  const id_paciente = location.state?.id_paciente || localStorage.getItem("id_paciente");
+  const { medico, especialidad } = location.state || {};
+  const id = medico?.id_medico;
 
-  // Cargar especialidades al iniciar
+  const [turnosDisponibles, setTurnosDisponibles] = useState([]);
+  const [idTurnoSeleccionado, setIdTurnoSeleccionado] = useState("");
+  const [obrasSociales, setObrasSociales] = useState([]);
+  const [idObraSeleccionada, setIdObraSeleccionada] = useState("");
+  const [cargandoTurnos, setCargandoTurnos] = useState(true);
+  const [cargandoObras, setCargandoObras] = useState(true);
+
+  // Cargar turnos disponibles
   useEffect(() => {
-    obtenerEspecialidades().then(res => setEspecialidades(res.data));
-  }, []);
+    const fetchTurnos = async () => {
+      if (!medico || !especialidad) return;
+      setCargandoTurnos(true);
+      try {
+        const data = await obtenerTurnosDisponibles(
+          medico.id_medico,
+          especialidad.id_especialidad
+        );
+        setTurnosDisponibles(data);
+      } catch (error) {
+        console.error("Error al obtener turnos disponibles:", error);
+      } finally {
+        setCargandoTurnos(false);
+      }
+    };
+    fetchTurnos();
+  }, [medico, especialidad]);
 
-  // Cargar médicos cuando cambia la especialidad
+  // Cargar obras sociales del médico
   useEffect(() => {
-    if (idEspecialidad) {
-      obtenerMedicosPorEspecialidad(idEspecialidad).then(res => setMedicos(res.data));
-    } else {
-      setMedicos([]);
-    }
-  }, [idEspecialidad]);
+    const fetchObras = async () => {
+      if (!id) return;
+      setCargandoObras(true);
+      try {
+        const data = await getObrasPorMedico(id);
+        // data tiene la propiedad obras_sociales
+        setObrasSociales(Array.isArray(data.obras_sociales) ? data.obras_sociales : []);
+      } catch (error) {
+        console.error("Error al obtener obras sociales:", error);
+      } finally {
+        setCargandoObras(false);
+      }
+    };
+    fetchObras();
+  }, [id]);
 
-  // Cargar turnos cuando cambia médico y fecha
-  useEffect(() => {
-    if (idMedico && fecha) {
-      obtenerTurnosDisponibles(idMedico, fecha).then(res => setTurnos(res.data));
-    } else {
-      setTurnos([]);
-    }
-  }, [idMedico, fecha]);
+  if (!medico || !especialidad || !id_paciente) {
+    return <p>No hay datos del turno o paciente. Volvé a seleccionar un médico.</p>;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await reservarTurno({
-        idTurno: horaSeleccionada,
-        idPaciente: JSON.parse(localStorage.getItem("usuario")).id,
-        idObraSocial: 1 // por ahora se puede dejar fijo
+
+    const turnoSeleccionado = turnosDisponibles.find(
+      (t) => t.id_turno.toString() === idTurnoSeleccionado
+    );
+    const obraSeleccionada = obrasSociales.find(
+      (o) => o.id_obra_social.toString() === idObraSeleccionada
+    );
+
+    if (!turnoSeleccionado || !obraSeleccionada) {
+      return MySwal.fire({
+        title: "Error",
+        text: "Debes seleccionar un turno y una obra social válidos",
+        icon: "error",
       });
-      alert("Turno reservado exitosamente");
-    } catch (err) {
-      console.error(err);
-      alert("Error al reservar turno");
+    }
+
+    const datosTurno = {
+      id_paciente: Number(id_paciente),
+      id_medico: Number(medico.id_medico),
+      id_turno: Number(turnoSeleccionado.id_turno),
+      id_obra_social: Number(obraSeleccionada.id_obra_social),
+      fecha_turno: turnoSeleccionado.fecha_turno,
+      horario: `${turnoSeleccionado.hora_inicio} - ${turnoSeleccionado.hora_fin}`
+    };
+
+    try {
+      await asignarTurno(datosTurno);
+
+      MySwal.fire({
+        title: 'Turno asignado ✅',
+        html: (
+          <div>
+            <p><b>Paciente:</b> {localStorage.getItem("nombre_paciente") || "Tú"}</p>
+            <p><b>Especialidad:</b> {especialidad.nombre}</p>
+            <p><b>Médico:</b> {medico.nombres} {medico.apellido}</p>
+            <p><b>Fecha:</b> {turnoSeleccionado.fecha_turno}</p>
+            <p><b>Horario:</b> {turnoSeleccionado.hora_inicio} - {turnoSeleccionado.hora_fin}</p>
+            <p><b>Obra Social:</b> {obraSeleccionada.obra_social}</p>
+          </div>
+        ),
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+      });
+
+      navigate('/MisTurnos');
+    } catch (error) {
+      console.error("Error al asignar turno:", error);
+      MySwal.fire({
+        title: "Error",
+        text: "No se pudo asignar el turno ❌",
+        icon: "error"
+      });
     }
   };
 
   return (
     <div className="sacar-turno-contenedor">
-      <h2>Solicitar un Turno</h2>
-      <form className="sacar-turno-formulario" onSubmit={handleSubmit}>
+      <h2>Confirmar Turno</h2>
+      <p><b>Especialidad:</b> {especialidad.nombre}</p>
+      <p><b>Médico:</b> {medico.nombres} {medico.apellido}</p>
+
+      <form onSubmit={handleSubmit}>
         <label>
-          Especialidad:
-          <select value={idEspecialidad} onChange={(e) => setIdEspecialidad(e.target.value)} required>
-            <option value="">Seleccionar</option>
-            {especialidades.map((esp) => (
-              <option key={esp.id_especialidad} value={esp.id_especialidad}>{esp.nombre}</option>
-            ))}
-          </select>
+          Turnos disponibles:
+          {cargandoTurnos ? (
+            <p>Cargando turnos...</p>
+          ) : (
+            <select
+              value={idTurnoSeleccionado}
+              onChange={(e) => setIdTurnoSeleccionado(e.target.value)}
+              required
+            >
+              <option value="">-- Seleccione --</option>
+              {turnosDisponibles.map((t) => (
+                <option key={t.id_turno} value={t.id_turno}>
+                  {t.fecha_turno} | {t.hora_inicio} - {t.hora_fin}
+                </option>
+              ))}
+            </select>
+          )}
         </label>
 
         <label>
-          Médico:
-          <select value={idMedico} onChange={(e) => setIdMedico(e.target.value)} required>
-            <option value="">Seleccionar</option>
-            {medicos.map((med) => (
-              <option key={med.id_medico} value={med.id_medico}>
-                {med.nombres} {med.apellido}
-              </option>
-            ))}
-          </select>
+          Obra Social:
+          {cargandoObras ? (
+            <p>Cargando obras sociales...</p>
+          ) : (
+            <select
+              value={idObraSeleccionada}
+              onChange={(e) => setIdObraSeleccionada(e.target.value)}
+              required
+            >
+              <option value="">-- Seleccione --</option>
+              {obrasSociales.map((o) => (
+                <option key={o.id_obra_social} value={o.id_obra_social}>
+                  {o.obra_social}
+                </option>
+              ))}
+            </select>
+          )}
         </label>
 
-        <label>
-          Fecha:
-          <input type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} required />
-        </label>
-
-        <label>
-          Horario:
-          <select value={horaSeleccionada} onChange={(e) => setHoraSeleccionada(e.target.value)} required>
-            <option value="">Seleccionar</option>
-            {turnos.map((turno) => (
-              <option key={turno.id_turno} value={turno.id_turno}>
-                {turno.hora_inicio} - {turno.hora_fin}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <button type="submit">Confirmar Turno</button>
+        <button type="submit" disabled={!idTurnoSeleccionado || !idObraSeleccionada}>
+          Confirmar Turno
+        </button>
       </form>
     </div>
   );

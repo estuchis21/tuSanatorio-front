@@ -21,8 +21,6 @@ export const getTurnos = async (id_paciente) => {
   }
 };
 
-
-
 export const historialTurnosPac = async (id_paciente) => {
   try{
     const res = await axios.get(`${API_URL}/historialTurnosPaciente/${id_paciente}`);
@@ -55,12 +53,24 @@ export const deleteTurno = async ({ id_paciente, id_turno_asignado }) => {
 };
 
 
-export const obtenerTurnosDisponibles = async (id_medico) => {
+export const obtenerTurnosDisponibles = async (id_medico, id_especialidad) => {
   try{
-    const res = await axios.get(`${API_URL}/getTurnosDisponibles/${id_medico}`);
+    const res = await axios.get(`${API_URL}/getTurnosDisponibles/${id_medico}/${id_especialidad}`);
     return res.data;
   }
   catch(error){
     throw new Error('Error al obtener todos los turnos disponibles de un médico' + (error.response?.data?.message || error.message));
   }
 }
+
+export const obtenerObraSocial = async () => {
+  try {
+    const res = await axios.get(`${API_URL}/getObrasSociales`);
+    return res.data;
+  } catch (error) {
+    throw new Error(
+      "Error al obtener la obra social: " +
+      (error.response?.data?.error || error.message)
+    );
+  }
+};
