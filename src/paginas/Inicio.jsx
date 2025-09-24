@@ -2,13 +2,35 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/224868501-removebg-preview (2).png';
 import '../estilos/Inicio.css';
+import '../estilos/Home.css';
+import carousel1 from '../assets/pexels-artempodrez-4492093.jpg';
+import carousel2 from '../assets/pexels-artempodrez-5726835.jpg';
+import carousel3 from '../assets/pexels-artempodrez-5726837.jpg';
+import carousel4 from '../assets/pexels-ivan-samkov-4989141.jpg';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 const Inicio = () => {
   const navigate = useNavigate();
 
-  const handleAccederClick = () => {
-    navigate('/home');
+  const handleLoginClick = () => {
+    navigate('/login');
   };
+
+  const getCarouselSettings = () => ({
+    autoPlay: true,
+    infiniteLoop: true,
+    showThumbs: false,
+    showStatus: false,
+    showIndicators: false,
+    interval: 3000,
+    transitionTime: 700,
+    stopOnHover: true,
+    swipeable: true,
+    emulateTouch: true,
+    className: "carousel-wrapper"
+  });
+
 
   // Animación al hacer scroll (fade-in)
   useEffect(() => {
@@ -36,10 +58,19 @@ const Inicio = () => {
           ¡Bienvenido a <span className="resaltado">tuSanatorio</span>!
         </h1>
         <p className="inicio-subtitulo">Tu salud está en las mejores manos</p>
-        <button className="inicio-boton" onClick={handleAccederClick}>
+        <button className="inicio-boton" onClick={handleLoginClick}>
           Acceder
         </button>
       </div>
+      <div className="carrusel">
+          <Carousel {...getCarouselSettings()}>
+            {[carousel1, carousel2, carousel3, carousel4].map((img, index) => (
+            <div key={index} className="carousel-img-container">
+              <img src={img} alt={`Slide ${index + 1}`} className="carousel-img" />
+            </div>
+          ))}
+        </Carousel>
+    </div>
 
       {/* HISTORIA */}
       <section className="inicio-historia fade-on-scroll">

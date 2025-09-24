@@ -13,7 +13,7 @@ export default function IniciarSesion() {
   const navigate = useNavigate();
 
   const handleRegresar = () => {
-    navigate('/home');
+    navigate('/');
   }
 
   const handleSubmit = async (e) => {

@@ -40,7 +40,7 @@ export default function MisTurnos() {
       }
 
       try {
-        const data = await getTurnos(id_paciente); // Devuelve array de turnos con id_obras_sociales
+        const data = await getTurnos(id_paciente); 
         setTurnos(data.turnos || []);
         setMensaje((data.turnos || []).length === 0 ? "No tenés turnos asignados." : "");
       } catch (error) {
@@ -62,6 +62,7 @@ export default function MisTurnos() {
       title: "Detalle del Turno",
       html: (
         <div>
+          <p><b>Médico:</b> {turno.nombres} {turno.apellido}</p>
           <p><b>Especialidad:</b> {turno.especialidad}</p>
           <p><b>Fecha:</b>{" "}
             {new Date(turno.fecha_turno).toLocaleDateString("es-AR", {
@@ -73,7 +74,6 @@ export default function MisTurnos() {
           </p>
           <p><b>Horario:</b> {horaInicio} - {horaFin}</p>
           <p><b>Obras Sociales del Médico:</b> {turno.obras_sociales || "No disponible"}</p>
-          <p><b>IDs Obras Sociales:</b> {turno.id_obras_sociales || "No disponible"}</p>
           <p><b>ID Turno:</b> {turno.id_turno_asignado}</p>
         </div>
       ),
@@ -83,7 +83,6 @@ export default function MisTurnos() {
   };
 
   const handleDeleteTurno = async (turno) => {
-    const id_paciente = localStorage.getItem("id_paciente");
     const id_turno_asignado = turno.id_turno_asignado;
 
     try {
@@ -105,7 +104,6 @@ export default function MisTurnos() {
     }
   };
 
-
   return (
     <div className="pagina-paciente">
       <div className="inicio">
@@ -125,9 +123,10 @@ export default function MisTurnos() {
               <table className="mis-turnos-tabla">
                 <thead>
                   <tr>
-                    <th>Fecha</th>
-                    <th>Hora</th>
+                    <th>Médico</th>
                     <th>Especialidad</th>
+                    <th>Fecha</th>
+                    <th>Horario</th>
                     <th>Obras Sociales del Médico</th>
                     <th>Acciones</th>
                   </tr>
@@ -139,9 +138,10 @@ export default function MisTurnos() {
 
                     return (
                       <tr key={turno.id_turno_asignado}>
+                        <td>{turno.nombres} {turno.apellido}</td>
+                        <td>{turno.especialidad}</td>
                         <td>{new Date(turno.fecha_turno).toLocaleDateString("es-AR")}</td>
                         <td>{horaInicio} - {horaFin}</td>
-                        <td>{turno.especialidad}</td>
                         <td>{turno.obras_sociales || "No disponible"}</td>
                         <td>
                           <button onClick={() => mostrarTurno(turno)}>Ver</button>

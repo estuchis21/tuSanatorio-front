@@ -61,7 +61,7 @@ select:focus {
   width: 90%;
   max-width: 1000px;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .cartilla-titulo {
@@ -148,4 +148,129 @@ select:focus {
   box-shadow: 0 3px 8px rgba(0,0,0,0.1);
   text-align: center;
   animation: fadeInSoft 0.5s ease forwards;
+}
+
+/* User info banner */
+.user-info {
+  background: linear-gradient(135deg, #6a11cb, #2575fc); /* degradado progresivo */
+  color: #fff; /* texto blanco */
+  padding: 2rem 2.5rem;
+  border-radius: 1rem; /* bordes redondeados */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2); /* sombra suave */
+  margin: 1rem 0;
+  text-align: center;
+  height: 100%;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.user-info h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.user-info p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+/* Animación progresiva */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* --- Próximo turno --- */
+.proximo-turno {
+  background: #fff;
+  border-left: 6px solid #2575fc; /* azul progresivo */
+  border-radius: 12px;
+  padding: 20px 25px;
+  margin: 20px auto;
+  max-width: 900px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  text-align: left;
+  animation: fadeInSoft 0.7s ease forwards;
+}
+
+.proximo-turno h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #2575fc;
+}
+
+.proximo-turno p {
+  font-size: 1.1rem;
+  margin: 5px 0 0;
+  font-weight: 500;
+}
+
+/* --- Historial de turnos --- */
+.historial-turnos {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 25px;
+  margin: 20px auto 40px auto;
+  max-width: 900px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  animation: fadeInSoft 0.7s ease forwards;
+}
+
+.historial-turnos h3 {
+  font-size: 1.5rem;
+  color: #6a11cb;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.historial-turnos ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.historial-turnos li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 1rem;
+  color: #333;
+}
+
+.historial-turnos li:last-child {
+  border-bottom: none;
+}
+
+/* --- Animación progresiva para listas --- */
+.historial-turnos li {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.historial-turnos li:nth-child(1) { animation-delay: 0.1s; }
+.historial-turnos li:nth-child(2) { animation-delay: 0.2s; }
+.historial-turnos li:nth-child(3) { animation-delay: 0.3s; }
+.historial-turnos li:nth-child(4) { animation-delay: 0.4s; }
+.historial-turnos li:nth-child(5) { animation-delay: 0.5s; }
+
+/* --- Integración con fadeInUp --- */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

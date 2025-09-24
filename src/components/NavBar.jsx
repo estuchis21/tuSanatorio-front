@@ -15,14 +15,16 @@ export default function Navbar() {
           <>
             <li><a href="/">Volver al inicio</a></li>
             <li><a href="/sesionActiva">Elegir turnos por especialidad</a></li>
-            <li><a href="/MisTurnos">Ver Turnos</a></li>
+            <li><a href="/MisTurnos">Ver Turnos pasados</a></li>
             <li><a href="/historiaClinica-paciente">Ver historias clínicas</a></li>
+            <li><a href="/updateInfoUser">Ver perfil</a></li>
           </>
         ) : idRol === 2 ? (
           // Opciones para médico
           <>
             <li><a href="/medico/turnos">Ver turnos del médico</a></li>
             <li><a href="/historiaClinica-paciente">Ver historias clínicas</a></li>
+            <li><a href="/verPerfil">Ver perfil</a></li>
           </>
         ) : null}
       </ul>
