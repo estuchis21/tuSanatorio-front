@@ -1,112 +1,192 @@
+/* ==========================
+   CONTENEDOR PRINCIPAL
+========================== */
+.pagina-paciente,
 .mis-turnos-container {
-  max-width: 800px;
+  max-width: 80vw;
   margin: 2rem auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #f0f0f0; /* color de texto principal claro para contraste */
+  padding: 1rem;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  background-color: #a5a3d8d7; /* azul oscuro translúcido */
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* ==========================
+   SECCIÓN DE BIENVENIDA
+========================== */
+.inicio h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #f5f5ff; /* más claro para destacar */
+}
+
+.inicio p {
+  font-size: 1rem;
+  color: #e0e0ff; /* suave y legible */
+}
+
+/* ==========================
+   MENSAJES DE ESTADO
+========================== */
+.mensaje,
+.no-disponible-text {
+  text-align: center;
+  color: #f0e6ff; /* más claro y visible sobre fondo azul */
+  margin: 1rem 0;
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+/* ==========================
+   SECCIÓN DE TURNOS
+========================== */
+.turnos-seccion h2 {
+  text-align: center;
+  color: #dcdcff; /* tono claro para título de sección */
+  margin-bottom: 1rem;
+  margin: 20px;
+}
+
+/* Grid de turnos lado a lado */
+.turnos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+/* ==========================
+   TARJETA DE TURNO
+========================== */
+.turno-card {
   background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   padding: 2rem;
-  text-align: center;
+  margin: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  color: #1206f5; /* texto principal azul fuerte */
 }
 
-.mis-turnos-container h2 {
-  margin-bottom: 1.5rem;
-  font-size: 2rem;
-  color: #1206F5;
+.turno-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-.mis-turnos-tabla {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 1rem;
+.turno-card.pasado {
+  background-color: #f0f0f0;
+  color: #555555; /* gris oscuro para turnos pasados */
+  border: 1px solid #cccccc;
+  font-style: italic;
 }
 
+/* Texto de la tarjeta */
+.turno-card p b {
+  color: #0d00c2; /* azul intenso para los títulos */
+}
+
+/* ==========================
+   BOTONES DE ACCIÓN
+========================== */
+.turno-actions button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #ffffff;
+  transition: background-color 0.3s ease, transform 0.2s;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.turno-actions button.ver,
+.turno-actions button:nth-child(1) {
+  background-color: #2979ff;
+}
+
+.turno-actions button.ver:hover,
+.turno-actions button:nth-child(1):hover {
+  background-color: #1565c0;
+}
+
+.turno-actions button.eliminar,
+.turno-actions button:nth-child(2) {
+  background-color: #ff5252;
+}
+
+.turno-actions button.eliminar:hover,
+.turno-actions button:nth-child(2):hover {
+  background-color: #d50000;
+}
+
+.turno-actions button:disabled,
+.turno-actions button.no-disponible {
+  background-color: #888888;
+  color: #eeeeee;
+  cursor: not-allowed;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+/* ==========================
+   TABLA DE TURNOS (opcional)
+========================== */
 .mis-turnos-tabla thead {
-  background-color: #1206F5;
-  color: white;
+  background: #2929ff; /* azul intenso */
+  color: #ffffff;
 }
 
 .mis-turnos-tabla th,
 .mis-turnos-tabla td {
-  padding: 0.75rem 1rem;
-  border: 1px solid #ddd;
+  color: #222222;
 }
 
-.mis-turnos-tabla tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-/* Estados con colores */
+/* Estados */
 .estado-confirmado td {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: #c8e6c9;
+  color: #2e7d32;
   font-weight: bold;
 }
 
 .estado-pendiente td {
-  background-color: #fff3cd;
-  color: #856404;
+  background-color: #fff9c4;
+  color: #f9a825;
   font-weight: bold;
 }
 
 .estado-cancelado td {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: #ffcdd2;
+  color: #b71c1c;
   font-weight: bold;
 }
 
-/* Responsive */
+/* ==========================
+   RESPONSIVE
+========================== */
+@media (max-width: 768px) {
+  .turno-card {
+    padding: 1.5rem;
+  }
+
+  .turno-actions button {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+  }
+}
+
 @media (max-width: 600px) {
-  .mis-turnos-tabla {
-    font-size: 0.9rem;
+  .turnos-grid {
+    flex-direction: column;
+    gap: 1rem;
   }
 
-  .mis-turnos-container {
+  .turno-card {
     padding: 1rem;
+    margin: 10px;
   }
-}
-.btn-accion {
-  padding: 6px 12px;
-  margin: 0 4px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  color: white;
-  transition: background-color 0.3s ease;
-}
-
-.btn-accion.cancelar {
-  background-color: #e53935;
-}
-
-.btn-accion.cancelar:hover {
-  background-color: #c62828;
-}
-
-.btn-accion.reprogramar {
-  background-color: #1976d2;
-}
-
-.btn-accion.reprogramar:hover {
-  background-color: #115293;
-}
-
-.btn-accion:disabled {
-  background-color: #ccc;
-  color: #666;
-  cursor: not-allowed;
-}
-.btn-accion.no-disponible {
-  background-color: #999999;
-  color: #eee;
-  cursor: not-allowed;
-  font-style: italic;
-  opacity: 0.7;
-}
-
-.no-disponible-text {
-  color: #999999;
-  font-style: italic;
-  margin-top: 1rem;
-  text-align: center;
 }
