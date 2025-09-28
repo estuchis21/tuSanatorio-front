@@ -134,3 +134,13 @@ export const getObrasPorPaciente = async (id_paciente) => {
     throw new Error(error.response?.data?.error || "Error al obtener las obras sociales por paciente")
   }
 }
+
+export const actualizarPerfil = async (id_usuario, datos) => {
+  try {
+    const response = await axios.put(`${API_URL}/perfil/${id_usuario}`, datos);
+    return response.data; // devuelve { message: "Perfil actualizado correctamente" }
+  } catch (error) {
+    console.error("Error al actualizar perfil:", error);
+    throw error.response?.data || { error: "Error desconocido" };
+  }
+};
