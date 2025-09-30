@@ -21,6 +21,14 @@ export default function HistorialTurnosMedico() {
     if (idMedico) fetchHistorial();
   }, [idMedico]);
 
+
+  // Función para formatear fecha tipo dd/MM/yyyy
+   const formatFecha = (fecha) => {
+     if (!fecha) return "";
+     const d = new Date(fecha);
+     return d.toLocaleDateString("es-AR"); // formato dd/MM/yyyy
+    };
+
   return (
     <div className="turnos-medico-container">
       <h2>Historial de Turnos</h2>
@@ -28,23 +36,25 @@ export default function HistorialTurnosMedico() {
         <thead>
           <tr>
             <th>Fecha</th>
+            <th>Hora Inicio</th>
+            <th>Hora Fin</th>
             <th>Paciente</th>
-            <th>Apellido</th>
             <th>Especialidad</th>
           </tr>
         </thead>
         <tbody>
           {turnos.length === 0 ? (
             <tr>
-              <td colSpan="4">No hay turnos históricos para mostrar</td>
+              <td colSpan="5">No hay turnos históricos para mostrar</td>
             </tr>
           ) : (
             turnos.map((turno, index) => (
               <tr key={index}>
-                <td>{new Date(turno["Fecha del Turno"]).toLocaleDateString()}</td>
-                <td>{turno["Nombres"]}</td>
-                <td>{turno["apellido"]}</td>
-                <td>{turno["nombre"]}</td>
+                <td>{formatFecha(turno["Fecha del Turno"])}</td>
+                <td>{turno["Hora Inicio"]}</td>
+                <td>{turno["Hora Fin"]}</td>
+                <td>{turno["Paciente"]}</td>
+                <td>{turno["Especialidad"]}</td>
               </tr>
             ))
           )}

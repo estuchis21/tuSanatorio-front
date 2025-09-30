@@ -24,7 +24,7 @@ export default function Navbar() {
           <>
             <li><a href="/medico/turnos">Ver turnos del médico</a></li>
             <li><a href="/historiaClinica-paciente">Ver historias clínicas</a></li>
-            <li><a href="/verPerfil">Ver perfil</a></li>
+            <li><a href="/profile">Ver perfil</a></li>
           </>
         ) : null}
       </ul>
