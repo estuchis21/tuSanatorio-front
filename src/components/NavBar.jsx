@@ -12,7 +12,6 @@ export default function Navbar() {
         {idRol === 1 ? (
           // Opciones para paciente
           <>
-
             <li><a href="/">Volver al inicio</a></li>
             <li><a href="/elegirTurnoPorEspecialidad">Elegir turnos por especialidad</a></li>
             <li><a href="/MisTurnos">Ver Turnos pasados</a></li>
@@ -22,6 +21,7 @@ export default function Navbar() {
         ) : idRol === 2 ? (
           // Opciones para médico
           <>
+            <li><a href="/">Volver al inicio</a></li>
             <li><a href="/medico/turnos">Ver turnos del médico</a></li>
             <li><a href="/historiaClinica-paciente">Ver historias clínicas</a></li>
             <li><a href="/profile">Ver perfil</a></li>

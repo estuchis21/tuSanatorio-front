@@ -47,7 +47,7 @@ export default function MisTurnos() {
         console.log(data);
 
         if (!data.historial || data.historial.length === 0) {
-          setMensaje("No tenés turnos asignados.");
+          setMensaje("No tenés turnos pasados.");
         } else {
           setMensaje("");
         }

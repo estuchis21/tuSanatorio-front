@@ -4,7 +4,11 @@ import { registrar } from "../servicios/servicioAuth";
 import { getEspecialidades } from "../servicios/servicioAuth";
 import { obtenerObraSocial } from "../servicios/servicioTurnos";
 import { useNavigate, Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import imgRegistro from "../assets/imgRegistro.jpg";
+
+const MySwal = withReactContent(Swal);
 
 export default function Registro() {
   const [username, setUsername] = useState("");
@@ -19,19 +23,20 @@ export default function Registro() {
   const [especialidades, setEspecialidades] = useState([]);
   const [id_obra_social, setId_obra_social] = useState("");
   const [obra_social, setObra_social] = useState([]);
-  const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
 
+  // Traer especialidades si es médico
   useEffect(() => {
-    // Solo si el rol es médico, traemos las especialidades
     if (id_rol === 2) {
       getEspecialidades()
-        .then((data) => {
-          setEspecialidades(data);
-        })
+        .then((data) => setEspecialidades(data))
         .catch((err) => {
           console.error(err);
-          setErrorMsg("No se pudieron cargar las especialidades");
+          MySwal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudieron cargar las especialidades'
+          });
         });
     } else {
       setEspecialidades([]);
@@ -39,19 +44,23 @@ export default function Registro() {
     }
   }, [id_rol]);
 
+  // Traer obras sociales
   useEffect(() => {
     const fetchObrasSociales = async () => {
       try {
-        const obras_sociales = await obtenerObraSocial();
-        setObra_social(obras_sociales);
+        const obras = await obtenerObraSocial();
+        setObra_social(obras);
       } catch (err) {
         console.error(err);
-        setErrorMsg("No se pudieron cargar las obras sociales");
+        MySwal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudieron cargar las obras sociales'
+        });
       }
     };
     fetchObrasSociales();
-  }, []); // <- vacío para que solo se ejecute al montar
-
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,10 +83,26 @@ export default function Registro() {
       }
 
       await registrar(datosRegistro);
+
+      // Swal de éxito
+      await MySwal.fire({
+        icon: 'success',
+        title: 'Registro exitoso',
+        text: 'Tu usuario se creó correctamente. Ahora podés iniciar sesión.',
+        timer: 2000,
+        showConfirmButton: false
+      });
+
       navigate("/login");
+
     } catch (err) {
       console.error(err);
-      setErrorMsg(err.response?.data?.message || "Error al registrar usuario");
+      const mensaje = err.response?.data?.message || "Error al registrar usuario";
+      MySwal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: mensaje
+      });
     }
   };
 
@@ -89,8 +114,6 @@ export default function Registro() {
       <div className="registro-contenedor">
         <form className="registro-formulario" onSubmit={handleSubmit}>
           <h2 className="registro-titulo">Registro</h2>
-
-          {errorMsg && <div className="registro-error">{errorMsg}</div>}
 
           <label htmlFor="username" className="registro-label">Nombre de usuario</label>
           <input
@@ -195,21 +218,21 @@ export default function Registro() {
             </>
           )}
 
-          <label htmlFor="rol" className="registro-label">Obra social</label>
-            <select
-              id="obras"
-              className="registro-input"
-              value={id_obra_social}
-              onChange={(e) => setId_obra_social(parseInt(e.target.value))}
-              required
-            >
-              <option value="">Seleccionar rol</option>
-              {obra_social.map((obra) => (
-                <option key={obra.id_obra_social} value={obra.id_obra_social}>
-                  {obra.obra_social}
-                </option>
-              ))}
-            </select>
+          <label htmlFor="obra_social" className="registro-label">Obra social</label>
+          <select
+            id="obras"
+            className="registro-input"
+            value={id_obra_social}
+            onChange={(e) => setId_obra_social(parseInt(e.target.value))}
+            required
+          >
+            <option value="">Seleccionar obra social</option>
+            {obra_social.map((obra) => (
+              <option key={obra.id_obra_social} value={obra.id_obra_social}>
+                {obra.obra_social}
+              </option>
+            ))}
+          </select>
 
           <button type="submit" className="registro-boton">Registrarse</button>
 
