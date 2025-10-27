@@ -12,9 +12,13 @@ import TurnosMedico from "../paginas/TurnosMedico";
 // Navbar
 import Navbar from "../components/NavBar"; // asegúrate de que exista en components
 import SesiónActiva from "../paginas/SesiónActiva";
-import HistoriasClinicas from "../paginas/HistoriasClinicasPaciente";
 import ProfileView from "../paginas/ProfileView";
 import ElegirMedicoPorEspecialidad from "../paginas/ElegirMedicoPorEspecialidad";
+import TurnosDispInsert from "../paginas/TurnosDispInsert";
+import HistoriasClinicasPaciente from "../paginas/HistoriasClinicasPaciente";
+import MedicoOpciones from "../paginas/MedicosOpciones";
+import CrearHistoria from "../paginas/CrearHistoria";
+import VerHistoriasMedico from "../paginas/HistoriasClinicasMedico";
 
 function RuteoApp() {
   return (
@@ -47,13 +51,16 @@ function AppContent() {
         <Route path="/elegirTurnoPorEspecialidad" element={<ElegirMedicoPorEspecialidad/>}/>
         <Route path="/MisTurnos" element={<MisTurnos />} />
         <Route path="/sesionActiva" element={<SesiónActiva />} />
-        <Route path="/historiaClinica-paciente" element={<HistoriasClinicas />}></Route>
+        <Route path="/historiaClinica-paciente" element={<HistoriasClinicasPaciente />} />
         <Route path="/profile" element={<ProfileView/>}/>
 
         {/* Rutas del médico */}
         <Route path="/medico" element={<Medico />} />
         <Route path="/medico/turnos" element={<TurnosMedico />} />
-
+        <Route path="/insertTurnos" element={<TurnosDispInsert/>}/>
+        <Route path="/medicosOpciones" element={<MedicoOpciones />} />
+        <Route path="/crearHistoria" element={<CrearHistoria />} />
+        <Route path="/verHistorias" element={<VerHistoriasMedico />} />
         {/* Ruta comodín */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -1,0 +1,122 @@
+/* Contenedor principal */
+.crear-historia {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Título */
+.crear-historia h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1f2937;
+  text-align: center;
+}
+
+/* Buscar paciente */
+.buscar-paciente {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.buscar-paciente input {
+  padding: 10px 12px;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.buscar-paciente input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+}
+
+.buscar-paciente button {
+  padding: 10px 15px;
+  background-color: #6b7280;
+  color: #ffffff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.buscar-paciente button:hover {
+  background-color: #4b5563;
+}
+
+/* Información del paciente */
+.info-paciente {
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #e5e7eb;
+  border: 1px solid #d1d5db;
+}
+
+/* Textarea */
+.crear-historia textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid #d1d5db;
+  font-size: 1rem;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.crear-historia textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+}
+
+/* Botón Crear Historia */
+.crear-historia > button {
+  padding: 12px;
+  background-color: #3b82f6;
+  color: #ffffff;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.crear-historia > button:hover {
+  background-color: #2563eb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .crear-historia {
+    padding: 15px;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .crear-historia h2 {
+    font-size: 1.5rem;
+  }
+
+  .crear-historia textarea {
+    min-height: 100px;
+  }
+
+  .crear-historia > button {
+    width: 100%;
+    padding: 10px;
+  }
+}

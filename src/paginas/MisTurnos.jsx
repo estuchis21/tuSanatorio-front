@@ -1,3 +1,4 @@
+// src/pages/MisTurnos.jsx
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -42,11 +43,18 @@ export default function MisTurnos() {
 
       try {
         const data = await historialTurnosPac(id_paciente);
-        // Corregido: extraemos el array de turnos del objeto
-        setTurnos(data.historial || []);
-        console.log(data);
+        console.log("Turnos backend:", data);
 
-        if (!data.historial || data.historial.length === 0) {
+        // Manejar cualquier formato de respuesta
+        const turnosArray = Array.isArray(data)
+          ? data
+          : Array.isArray(data.turnos)
+          ? data.turnos
+          : [];
+
+        setTurnos(turnosArray);
+
+        if (!turnosArray.length) {
           setMensaje("No tenés turnos pasados.");
         } else {
           setMensaje("");
@@ -63,8 +71,14 @@ export default function MisTurnos() {
 
   // Mostrar detalle del turno en modal
   const mostrarTurno = (turno) => {
-    const horaInicio = new Date(turno.hora_inicio).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
-    const horaFin = new Date(turno.hora_fin).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+    const horaInicio = new Date(turno.hora_inicio).toLocaleTimeString("es-AR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    const horaFin = new Date(turno.hora_fin).toLocaleTimeString("es-AR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
     MySwal.fire({
       title: "Detalle del Turno",
@@ -89,56 +103,52 @@ export default function MisTurnos() {
   };
 
   // Eliminar turno
-const handleDeleteTurno = async (turno) => {
-  // Obtener horas formateadas
-  const horaInicio = new Date(turno.hora_inicio).toLocaleTimeString("es-AR", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  const horaFin = new Date(turno.hora_fin).toLocaleTimeString("es-AR", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const handleDeleteTurno = async (turno) => {
+    const horaInicio = new Date(turno.hora_inicio).toLocaleTimeString("es-AR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    const horaFin = new Date(turno.hora_fin).toLocaleTimeString("es-AR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
-  // Confirmación con SweetAlert2
-  const result = await MySwal.fire({
-    title: "¿Desea eliminar su turno?",
-    html: (
-      <div>
-        <p><b>Médico:</b> {turno.nombres} {turno.apellido}</p>
-        <p><b>Especialidad:</b> {turno.especialidad}</p>
-        <p><b>Fecha:</b> {new Date(turno.fecha_turno).toLocaleDateString("es-AR", {
-          weekday: "long",
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        })}</p>
-        <p><b>Horario:</b> {horaInicio} - {horaFin}</p>
-      </div>
-    ),
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Eliminar",
-    cancelButtonText: "Cancelar",
-  });
+    const result = await MySwal.fire({
+      title: "¿Desea eliminar su turno?",
+      html: (
+        <div>
+          <p><b>Médico:</b> {turno.nombres} {turno.apellido}</p>
+          <p><b>Especialidad:</b> {turno.especialidad}</p>
+          <p><b>Fecha:</b> {new Date(turno.fecha_turno).toLocaleDateString("es-AR", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })}</p>
+          <p><b>Horario:</b> {horaInicio} - {horaFin}</p>
+        </div>
+      ),
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Eliminar",
+      cancelButtonText: "Cancelar",
+    });
 
-  // Si confirma eliminación
-  if (result.isConfirmed) {
-    try {
-      await deleteTurno({ id_paciente, id_turno_asignado: turno.id_turno_asignado });
-      setTurnos(prev => prev.filter(t => t.id_turno_asignado !== turno.id_turno_asignado));
-      MySwal.fire({ icon: "success", title: "Turno eliminado", timer: 1500, showConfirmButton: false });
-    } catch (error) {
-      console.error("Error al eliminar turno:", error);
-      MySwal.fire({
-        icon: "error",
-        title: "No se pudo eliminar el turno",
-        text: error.response?.data?.error || "Intenta nuevamente",
-      });
+    if (result.isConfirmed) {
+      try {
+        await deleteTurno({ id_paciente, id_turno_asignado: turno.id_turno_asignado });
+        setTurnos(prev => prev.filter(t => t.id_turno_asignado !== turno.id_turno_asignado));
+        MySwal.fire({ icon: "success", title: "Turno eliminado", timer: 1500, showConfirmButton: false });
+      } catch (error) {
+        console.error("Error al eliminar turno:", error);
+        MySwal.fire({
+          icon: "error",
+          title: "No se pudo eliminar el turno",
+          text: error.response?.data?.error || "Intenta nuevamente",
+        });
+      }
     }
-  }
-};
-
+  };
 
   return (
     <div className="pagina-paciente">
@@ -153,7 +163,6 @@ const handleDeleteTurno = async (turno) => {
         <>
           {mensaje && <p className="mensaje">{mensaje}</p>}
 
-          {/* Todos los turnos */}
           {turnos.length > 0 && (
             <div className="turnos-seccion">
               <h2>Turnos</h2>

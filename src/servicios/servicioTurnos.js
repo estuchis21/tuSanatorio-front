@@ -74,3 +74,29 @@ export const obtenerObraSocial = async () => {
     );
   }
 };
+
+export const insertTurnosDisp = async (turnosDis) => {
+  try{
+    const res = await axios.post(`${API_URL}/insertTurnosDisp`, {turnosDis})
+    return res.data;
+  }
+  catch(error){
+    throw new Error(
+      "Error al insertar Turno disponible por médico. " +
+      (error.response?.data?.error || error.message)
+    );
+  }
+}
+
+export const getRangos = async () => {
+  try{
+    const res = await axios.get(`${API_URL}/getRangos`);
+    return res.data;
+  }
+  catch(error){
+    throw new Error(
+      "Error al obtener rangos." +
+      (error.response?.data?.error || error.message)
+    );
+  }
+}

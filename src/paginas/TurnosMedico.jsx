@@ -6,11 +6,13 @@ import { historialTurnosMed } from "../servicios/servicioTurnos";
 export default function HistorialTurnosMedico() {
   const [turnos, setTurnos] = useState([]);
   const idMedico = localStorage.getItem("id_medico");
+  console.log(idMedico)
 
   useEffect(() => {
     const fetchHistorial = async () => {
       try {
         const data = await historialTurnosMed(idMedico);
+        console.log("Datos recibidos del backend:", data); // <--- agregá esto
         setTurnos(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error al obtener historial de turnos:", error);
@@ -20,6 +22,7 @@ export default function HistorialTurnosMedico() {
 
     if (idMedico) fetchHistorial();
   }, [idMedico]);
+
 
 
   // Función para formatear fecha tipo dd/MM/yyyy
@@ -50,9 +53,9 @@ export default function HistorialTurnosMedico() {
           ) : (
             turnos.map((turno, index) => (
               <tr key={index}>
-                <td>{formatFecha(turno["Fecha del Turno"])}</td>
-                <td>{turno["Hora Inicio"]}</td>
-                <td>{turno["Hora Fin"]}</td>
+                <td>{formatFecha(turno["fecha_turno"])}</td>
+                <td>{turno["hora_inicio"]}</td>
+                <td>{turno["hora_fin"]}</td>
                 <td>{turno["Paciente"]}</td>
                 <td>{turno["Especialidad"]}</td>
               </tr>
