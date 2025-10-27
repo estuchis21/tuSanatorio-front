@@ -1,7 +1,7 @@
 // src/servicios/servicioAuth.js
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/auth";  
+const API_URL = import.meta.env.VITE_API_URL + "/auth"; 
 
 // Guardar token en localStorage
 export const guardarToken = (token) => {
@@ -134,3 +134,23 @@ export const getObrasPorPaciente = async (id_paciente) => {
     throw new Error(error.response?.data?.error || "Error al obtener las obras sociales por paciente")
   }
 }
+
+export const actualizarPerfil = async (id_usuario, datos) => {
+  try {
+    const response = await axios.put(`${API_URL}/perfil/${id_usuario}`, datos);
+    return response.data; // devuelve { message: "Perfil actualizado correctamente" }
+  } catch (error) {
+    console.error("Error al actualizar perfil:", error);
+    throw error.response?.data || { error: "Error desconocido" };
+  }
+};
+
+export const buscarPacientesPorTexto = async (texto) => {
+  try {
+    const res = await axios.get(`${API_URL}/pacientes/buscar?texto=${encodeURIComponent(texto)}`);
+    return res.data; // devuelve array de pacientes
+  } catch (error) {
+    throw new Error("Error al buscar pacientes: " + (error.response?.data?.error || error.message));
+  }
+};
+

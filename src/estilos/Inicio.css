@@ -1,4 +1,6 @@
-/* CONTENEDOR PRINCIPAL */
+/* ============================= */
+/* CONTENEDOR PRINCIPAL          */
+/* ============================= */
 .inicio-contenedor {
   display: flex;
   flex-direction: column;
@@ -7,31 +9,50 @@
   color: #f0f8ff;
   text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding: 2rem;
+  padding: 0; /* el carrusel ya ocupa toda la pantalla */
 }
 
-/* HEADER */
+/* ============================= */
+/* CARRUSEL FULLSCREEN            */
+/* ============================= */
+.carrusel {
+  width: 100%;
+  height: 100vh;              /* ocupa toda la pantalla */
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;           /* llena el área manteniendo proporción */
+  display: block;
+}
+
+/* ============================= */
+/* HEADER CON LOGO Y TEXTO        */
+/* ============================= */
 .header {
-  height: 100vh;
+  margin-top: 40px;
+  margin-bottom: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-/* LOGO */
+/* LOGO MÁS CHICO */
 .inicio-logo {
-  width: 20vw;
-  max-width: 200px;
-  margin-bottom: 1.5rem;
+  width: 180px;
+  margin-bottom: 15px;
   animation: zoomIn 0.6s ease-in-out;
 }
 
 /* TITULOS Y SUBTITULOS */
 .inicio-titulo {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
   color: #E0F7FA;
 }
 
@@ -40,8 +61,8 @@
 }
 
 .inicio-subtitulo {
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
   color: #f1f1f1;
 }
 
@@ -49,10 +70,10 @@
 .inicio-boton {
   background-color: #ffffff;
   color: #1206F5;
-  padding: 0.8rem 2rem;
+  padding: 0.7rem 1.5rem;
   border: none;
   border-radius: 8px;
-  font-size: 1.05rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
@@ -64,8 +85,11 @@
   transform: scale(1.05);
 }
 
+/* ============================= */
 /* SECCIONES HISTORIA Y BENEFICIOS */
-.inicio-historia, .inicio-beneficios {
+/* ============================= */
+.inicio-historia,
+.inicio-beneficios {
   margin: 40px 0;
   padding: 30px 20px;
   background-color: rgba(255, 255, 255, 0.05);
@@ -76,7 +100,7 @@
   transition: all 0.8s ease-out;
 }
 
-/* TITULOS SECCIONALES */
+/* TITULOS DE SECCIÓN */
 .historia-titulo {
   font-size: 2rem;
   color: #E0F7FA;
@@ -96,7 +120,8 @@
 }
 
 /* LISTAS */
-.historia-milestones, .historia-beneficios {
+.historia-milestones,
+.historia-beneficios {
   list-style: none;
   padding: 0;
   text-align: left;
@@ -104,7 +129,8 @@
   margin: 0 auto;
 }
 
-.historia-milestones li, .historia-beneficios li {
+.historia-milestones li,
+.historia-beneficios li {
   margin-bottom: 12px;
   font-size: 1rem;
   opacity: 0;
@@ -112,7 +138,9 @@
   transition: all 0.6s ease-out;
 }
 
-/* CLASES PARA ANIMAR AL SCROLL */
+/* ============================= */
+/* ANIMACIONES EN SCROLL          */
+/* ============================= */
 .fade-on-scroll.visible {
   opacity: 1;
   transform: translateY(0);
@@ -123,26 +151,29 @@
   transform: translateX(0);
 }
 
-/* ANIMACIONES */
 @keyframes zoomIn {
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 
-/* MEDIA QUERIES */
+/* ============================= */
+/* MEDIA QUERIES (Responsive)     */
+/* ============================= */
 @media (max-width: 768px) {
-  .inicio-titulo { font-size: 2.2rem; }
-  .inicio-subtitulo { font-size: 1rem; }
-  .inicio-boton { font-size: 1rem; padding: 0.6rem 1.5rem; }
-  .inicio-logo { width: 150px; }
-  .historia-titulo { font-size: 1.5rem; }
+  .inicio-titulo { font-size: 1.8rem; }
+  .inicio-subtitulo { font-size: 0.95rem; }
+  .inicio-boton { font-size: 0.9rem; padding: 0.5rem 1rem; }
+  .inicio-logo { width: 120px; }
+  .historia-titulo { font-size: 1.4rem; }
 }
 
 @media (max-width: 480px) {
-  .inicio-titulo { font-size: 1.8rem; }
-  .inicio-subtitulo { font-size: 0.95rem; }
-  .inicio-boton { font-size: 0.95rem; padding: 0.5rem 1.2rem; }
-  .inicio-logo { width: 120px; }
-  .historia-titulo { font-size: 1.3rem; }
-  .historia-texto, .historia-milestones li, .historia-beneficios li { font-size: 0.9rem; }
+  .inicio-titulo { font-size: 1.6rem; }
+  .inicio-subtitulo { font-size: 0.9rem; }
+  .inicio-boton { font-size: 0.85rem; padding: 0.4rem 0.9rem; }
+  .inicio-logo { width: 100px; }
+  .historia-titulo { font-size: 1.2rem; }
+  .historia-texto,
+  .historia-milestones li,
+  .historia-beneficios li { font-size: 0.85rem; }
 }
