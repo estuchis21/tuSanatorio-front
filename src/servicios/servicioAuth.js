@@ -148,7 +148,7 @@ export const actualizarPerfil = async (id_usuario, datos) => {
 export const buscarPacientesPorTexto = async (texto) => {
   try {
     const res = await axios.get(`${API_URL}/pacientes/buscar?texto=${encodeURIComponent(texto)}`);
-    return res.data; // devuelve array de pacientes
+    return res.data;
   } catch (error) {
     throw new Error("Error al buscar pacientes: " + (error.response?.data?.error || error.message));
   }

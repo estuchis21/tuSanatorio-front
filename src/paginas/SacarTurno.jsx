@@ -23,6 +23,27 @@ export default function SacarTurno() {
   const [cargandoTurnos, setCargandoTurnos] = useState(true);
   const [cargandoObras, setCargandoObras] = useState(true);
 
+  // 🔹 Función para formatear fecha a dd/mm/aa
+  const formatearFecha = (fechaISO) => {
+    const fecha = new Date(fechaISO);
+    if (isNaN(fecha)) return fechaISO; // Por si no es una fecha válida
+    return fecha.toLocaleDateString("es-AR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+    });
+  };
+
+  // 🔹 Función para formatear hora a HH:MM
+  const formatearHora = (horaISO) => {
+    const fecha = new Date(horaISO);
+    if (isNaN(fecha)) return horaISO;
+    return fecha.toLocaleTimeString("es-AR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   // Cargar turnos disponibles
   useEffect(() => {
     const fetchTurnos = async () => {
@@ -50,7 +71,6 @@ export default function SacarTurno() {
       setCargandoObras(true);
       try {
         const data = await getObrasPorMedico(id);
-        // data tiene la propiedad obras_sociales
         setObrasSociales(Array.isArray(data.obras_sociales) ? data.obras_sociales : []);
       } catch (error) {
         console.error("Error al obtener obras sociales:", error);
@@ -88,8 +108,8 @@ export default function SacarTurno() {
       id_medico: Number(medico.id_medico),
       id_turno: Number(turnoSeleccionado.id_turno),
       id_obra_social: Number(obraSeleccionada.id_obra_social),
-      fecha_turno: turnoSeleccionado.fecha_turno,
-      horario: `${turnoSeleccionado.hora_inicio} - ${turnoSeleccionado.hora_fin}`
+      fecha_turno: formatearFecha(turnoSeleccionado.fecha_turno),
+      horario: `${formatearHora(turnoSeleccionado.hora_inicio)} - ${formatearHora(turnoSeleccionado.hora_fin)}`
     };
 
     try {
@@ -102,8 +122,8 @@ export default function SacarTurno() {
             <p><b>Paciente:</b> {localStorage.getItem("nombre_paciente") || "Tú"}</p>
             <p><b>Especialidad:</b> {especialidad.nombre}</p>
             <p><b>Médico:</b> {medico.nombres} {medico.apellido}</p>
-            <p><b>Fecha:</b> {turnoSeleccionado.fecha_turno}</p>
-            <p><b>Horario:</b> {turnoSeleccionado.hora_inicio} - {turnoSeleccionado.hora_fin}</p>
+            <p><b>Fecha:</b> {datosTurno.fecha_turno}</p>
+            <p><b>Horario:</b> {datosTurno.horario}</p>
             <p><b>Obra Social:</b> {obraSeleccionada.obra_social}</p>
           </div>
         ),
@@ -128,13 +148,14 @@ export default function SacarTurno() {
       <p><b>Especialidad:</b> {especialidad.nombre}</p>
       <p><b>Médico:</b> {medico.nombres} {medico.apellido}</p>
 
-      <form onSubmit={handleSubmit}>
-        <label>
-          Turnos disponibles:
+      <form onSubmit={handleSubmit} className="sacar-turno-formulario">
+        <div className="campo-formulario">
+          <label htmlFor="turno">Turnos disponibles:</label>
           {cargandoTurnos ? (
             <p>Cargando turnos...</p>
           ) : (
             <select
+              id="turno"
               value={idTurnoSeleccionado}
               onChange={(e) => setIdTurnoSeleccionado(e.target.value)}
               required
@@ -142,19 +163,20 @@ export default function SacarTurno() {
               <option value="">-- Seleccione --</option>
               {turnosDisponibles.map((t) => (
                 <option key={t.id_turno} value={t.id_turno}>
-                  {t.fecha_turno} | {t.hora_inicio} - {t.hora_fin}
+                  {formatearFecha(t.fecha_turno)} | {formatearHora(t.hora_inicio)} - {formatearHora(t.hora_fin)}
                 </option>
               ))}
             </select>
           )}
-        </label>
+        </div>
 
-        <label>
-          Obra Social:
+        <div className="campo-formulario">
+          <label htmlFor="obra">Obra Social:</label>
           {cargandoObras ? (
             <p>Cargando obras sociales...</p>
           ) : (
             <select
+              id="obra"
               value={idObraSeleccionada}
               onChange={(e) => setIdObraSeleccionada(e.target.value)}
               required
@@ -167,12 +189,14 @@ export default function SacarTurno() {
               ))}
             </select>
           )}
-        </label>
+        </div>
 
         <button type="submit" disabled={!idTurnoSeleccionado || !idObraSeleccionada}>
           Confirmar Turno
         </button>
+
       </form>
+
     </div>
   );
 }

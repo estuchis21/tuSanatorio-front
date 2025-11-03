@@ -12,7 +12,6 @@
 .login-imagen {
   width: 50%;
   height: 100%;
-  overflow: hidden;
   box-shadow: 4px 0 15px rgba(26, 35, 126, 0.15);
 }
 

@@ -1,5 +1,3 @@
-/* src/estilos/Navbar.css */
-
 /* Navbar principal */
 .navbar {
   display: flex;
@@ -8,13 +6,14 @@
   background-color: #1976d2;
   padding: 15px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  position: relative;
 }
 
 /* Logo de imagen */
 .navbar-logo img,
 .navbar-logo .logo {
   display: block;
-  height: 215px;  /* aumenta o disminuye según necesidad */
+  height: 250px;  /* ajusta según necesidad */
   width: auto;
   padding: 10px;
 }
@@ -28,8 +27,10 @@
   margin: 0;
   flex-wrap: wrap;
   justify-content: center;
+  transition: max-height 0.3s ease;
 }
 
+/* Links normales */
 .navbar-links li a {
   color: white;
   text-decoration: none;
@@ -44,19 +45,66 @@
   color: #ffeb3b;
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-  .navbar-logo img,
-  .navbar-logo .logo {
-    height: 60px;
-  }
+/* Hamburguesa */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  margin-top: 10px;
+}
 
+.bar {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 4px 0;
+  transition: all 0.3s ease;
+}
+
+/* Animación de apertura */
+.bar.open:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.bar.open:nth-child(2) {
+  opacity: 0;
+}
+.bar.open:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Responsive para tablets y celulares */
+@media (max-width: 768px) {
   .navbar-links {
     flex-direction: column;
+    max-height: 0;
+    overflow: hidden;
     gap: 10px;
+    width: 100%;
+  }
+
+  .navbar-links.active {
+    max-height: 500px; /* suficiente para mostrar los links */
+  }
+
+  .hamburger {
+    display: flex;
   }
 
   .navbar-links li a {
     font-size: 1rem;
+    text-align: center;
+  }
+
+  .navbar-logo img,
+  .navbar-logo .logo {
+    height: 250px;
+    width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-logo img,
+  .navbar-logo .logo {
+    height: 200px;
   }
 }

@@ -9,16 +9,17 @@ import MisTurnos from "../paginas/MisTurnos";
 import Registro from "../paginas/Registro";
 import SacarTurno from '../paginas/SacarTurno';
 import TurnosMedico from "../paginas/TurnosMedico";
+import ModificarTurno from "../paginas/ModificarTurno";
 // Navbar
 import Navbar from "../components/NavBar"; // asegúrate de que exista en components
-import SesiónActiva from "../paginas/SesiónActiva";
-import ProfileView from "../paginas/ProfileView";
+import CrearHistoria from "../paginas/CrearHistoria";
 import ElegirMedicoPorEspecialidad from "../paginas/ElegirMedicoPorEspecialidad";
-import TurnosDispInsert from "../paginas/TurnosDispInsert";
+import VerHistoriasMedico from "../paginas/HistoriasClinicasMedico";
 import HistoriasClinicasPaciente from "../paginas/HistoriasClinicasPaciente";
 import MedicoOpciones from "../paginas/MedicosOpciones";
-import CrearHistoria from "../paginas/CrearHistoria";
-import VerHistoriasMedico from "../paginas/HistoriasClinicasMedico";
+import ProfileView from "../paginas/ProfileView";
+import SesiónActiva from "../paginas/SesiónActiva";
+import TurnosDispInsert from "../paginas/TurnosDispInsert";
 
 function RuteoApp() {
   return (
@@ -53,6 +54,7 @@ function AppContent() {
         <Route path="/sesionActiva" element={<SesiónActiva />} />
         <Route path="/historiaClinica-paciente" element={<HistoriasClinicasPaciente />} />
         <Route path="/profile" element={<ProfileView/>}/>
+        <Route path="/modificarTurno" element={<ModificarTurno />} />
 
         {/* Rutas del médico */}
         <Route path="/medico" element={<Medico />} />

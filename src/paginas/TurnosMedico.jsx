@@ -6,13 +6,12 @@ import { historialTurnosMed } from "../servicios/servicioTurnos";
 export default function HistorialTurnosMedico() {
   const [turnos, setTurnos] = useState([]);
   const idMedico = localStorage.getItem("id_medico");
-  console.log(idMedico)
 
   useEffect(() => {
     const fetchHistorial = async () => {
       try {
         const data = await historialTurnosMed(idMedico);
-        console.log("Datos recibidos del backend:", data); // <--- agregá esto
+        console.log("Datos recibidos del backend:", data);
         setTurnos(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error al obtener historial de turnos:", error);
@@ -23,14 +22,29 @@ export default function HistorialTurnosMedico() {
     if (idMedico) fetchHistorial();
   }, [idMedico]);
 
+  // 🔹 Formatear fecha (dd/mm/aaaa)
+  const formatFecha = (fecha) => {
+    if (!fecha) return "";
+    const d = new Date(fecha);
+    if (isNaN(d)) return fecha;
+    return d.toLocaleDateString("es-AR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
 
-
-  // Función para formatear fecha tipo dd/MM/yyyy
-   const formatFecha = (fecha) => {
-     if (!fecha) return "";
-     const d = new Date(fecha);
-     return d.toLocaleDateString("es-AR"); // formato dd/MM/yyyy
-    };
+  // 🔹 Formatear hora (solo HH:mm)
+  const formatHora = (hora) => {
+    if (!hora) return "";
+    // Si viene con "T" (ISO)
+    if (hora.includes("T")) {
+      return hora.split("T")[1].substring(0, 5);
+    }
+    // Si viene como "08:00:00"
+    const [h, m] = hora.split(":");
+    return `${h}:${m}`;
+  };
 
   return (
     <div className="turnos-medico-container">
@@ -53,11 +67,11 @@ export default function HistorialTurnosMedico() {
           ) : (
             turnos.map((turno, index) => (
               <tr key={index}>
-                <td>{formatFecha(turno["fecha_turno"])}</td>
-                <td>{turno["hora_inicio"]}</td>
-                <td>{turno["hora_fin"]}</td>
-                <td>{turno["Paciente"]}</td>
-                <td>{turno["Especialidad"]}</td>
+                <td>{formatFecha(turno.fecha_turno)}</td>
+                <td>{formatHora(turno.hora_inicio)}</td>
+                <td>{formatHora(turno.hora_fin)}</td>
+                <td>{turno.Paciente}</td>
+                <td>{turno.Especialidad}</td>
               </tr>
             ))
           )}

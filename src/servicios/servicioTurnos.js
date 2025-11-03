@@ -54,14 +54,21 @@ export const deleteTurno = async ({ id_paciente, id_turno_asignado }) => {
 
 
 export const obtenerTurnosDisponibles = async (id_medico, id_especialidad) => {
-  try{
+  console.log("Llamando a obtenerTurnosDisponibles con:", id_medico, id_especialidad); // 🔹 log
+  if (!id_medico || !id_especialidad) {
+    throw new Error("Faltan parámetros: id_medico o id_especialidad");
+  }
+
+  try {
     const res = await axios.get(`${API_URL}/getTurnosDisponibles/${id_medico}/${id_especialidad}`);
+    console.log("Respuesta turnos disponibles:", res.data); // 🔹 log
     return res.data;
+  } catch (error) {
+    console.error("Error al obtener turnos disponibles:", error.response?.data || error.message); // 🔹 log
+    throw new Error('Error al obtener todos los turnos disponibles de un médico: ' + (error.response?.data?.message || error.message));
   }
-  catch(error){
-    throw new Error('Error al obtener todos los turnos disponibles de un médico' + (error.response?.data?.message || error.message));
-  }
-}
+};
+
 
 export const obtenerObraSocial = async () => {
   try {
@@ -75,18 +82,17 @@ export const obtenerObraSocial = async () => {
   }
 };
 
-export const insertTurnosDisp = async (turnosDis) => {
-  try{
-    const res = await axios.post(`${API_URL}/insertTurnosDisp`, {turnosDis})
+export const insertTurnosDisp = async (turno) => {
+  try {
+    // 🔹 Enviamos directamente el objeto, no dentro de {turnosDis}
+    const res = await axios.post(`${API_URL}/insertTurnosDisp`, turno);
     return res.data;
+  } catch (error) {
+    // Devolvemos el error completo para que el frontend pueda diferenciarlo
+    throw error;
   }
-  catch(error){
-    throw new Error(
-      "Error al insertar Turno disponible por médico. " +
-      (error.response?.data?.error || error.message)
-    );
-  }
-}
+};
+
 
 export const getRangos = async () => {
   try{
@@ -99,4 +105,13 @@ export const getRangos = async () => {
       (error.response?.data?.error || error.message)
     );
   }
+}
+
+export const modificarTurno = async (datosTurno) => {
+  try {
+    const res = await axios.put(`${API_URL}/modificarTurno`, datosTurno); 
+    return res.data;
+  } catch (error) {
+    throw new Error('Error al modificar el turno: ' + (error.response?.data?.message || error.message));
+  }   
 }
