@@ -1,55 +1,130 @@
-.historia-container {
-  border: 1px solid #ccc;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 500px;
-  margin: 20px auto;
-  font-family: Arial, sans-serif;
+/* ====== ESTILO GENERAL ====== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 25px;
+  background-color: #f9fcff; /* fondo muy claro azul/gris */
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  color: #1e293b;
 }
 
-.info-paciente, .info-medico, .historia-clinica {
-  margin-bottom: 15px;
+/* ====== TÍTULO ====== */
+.container h2 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 35px;
+  letter-spacing: 0.5px;
 }
 
-h3 {
-  margin-bottom: 5px;
-  color: #333;
+/* ====== FORMULARIO DE BÚSQUEDA ====== */
+.search-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 35px;
 }
 
-.historia-container {
+.search-form input {
+  flex: 1 1 250px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: 1.8px solid #cbd5e1;
+  border-radius: 10px;
+  background-color: #ffffff;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-form input:focus {
+  border-color: #93c5fd;
+  box-shadow: 0 0 6px rgba(147, 197, 253, 0.5);
+  outline: none;
+}
+
+.search-form button {
+  padding: 10px 25px;
+  background-color: #60a5fa;
+  color: #ffffff;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.search-form button:hover {
+  background-color: #3b82f6;
+  transform: translateY(-1px);
+}
+
+/* ====== LOADING ====== */
+.loading {
+  text-align: center;
+  color: #64748b;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+/* ====== LISTA DE HISTORIAS ====== */
+.historias-list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding: 2rem;
-  color: #eaeaea;
-  background-color: #121212;
-  border-radius: 8px;
+  gap: 22px;
 }
 
+/* ====== TARJETA DE HISTORIA ====== */
 .historia-card {
-  background-color: #1e1e1e;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 22px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.25s, box-shadow 0.25s;
 }
 
-.info-paciente, .info-medico, .historia-clinica {
-  margin-bottom: 1rem;
+.historia-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
 }
 
-h3 {
-  color: #4fc3f7;
-  margin-bottom: 0.5rem;
+.historia-card p {
+  margin: 6px 0;
+  color: #334155;
+  font-size: 0.95rem;
+  line-height: 1.4;
 }
 
-strong {
-  color: #ffffff;
+.historia-card p span {
+  font-weight: 600;
+  color: #1e40af;
 }
 
-.historia-loading,
-.historia-error,
-.historia-vacia {
-  text-align: center;
-  color: #ccc;
-  padding: 2rem;
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .search-form {
+    flex-direction: column;
+  }
+
+  .search-form input,
+  .search-form button {
+    width: 100%;
+  }
+
+  .container {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container h2 {
+    font-size: 1.5rem;
+  }
+
+  .historia-card {
+    padding: 18px;
+  }
 }

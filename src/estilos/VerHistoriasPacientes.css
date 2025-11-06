@@ -1,103 +1,109 @@
-/* src/estilos/VerHistoriasPaciente.css */
-
-/* Contenedor principal */
+/* ====== ESTILO GENERAL ====== */
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  font-family: 'Arial', sans-serif;
+  padding: 25px;
+  background-color: #f9fcff; /* fondo muy claro azul/gris */
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  color: #1e293b;
 }
 
-/* Título principal */
+/* ====== TÍTULO ====== */
 .container h2 {
   text-align: center;
   font-size: 2rem;
   font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 30px;
+  color: #2563eb;
+  margin-bottom: 35px;
+  letter-spacing: 0.5px;
 }
 
-/* Formulario de búsqueda */
+/* ====== FORMULARIO DE BÚSQUEDA ====== */
 .search-form {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 12px;
   justify-content: center;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
 }
 
 .search-form input {
-  flex: 1 1 200px;
+  flex: 1 1 250px;
   padding: 10px 15px;
   font-size: 1rem;
-  border: 2px solid #d1d5db;
-  border-radius: 8px;
-  outline: none;
+  border: 1.8px solid #cbd5e1;
+  border-radius: 10px;
+  background-color: #ffffff;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .search-form input:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+  border-color: #93c5fd;
+  box-shadow: 0 0 6px rgba(147, 197, 253, 0.5);
+  outline: none;
 }
 
 .search-form button {
   padding: 10px 25px;
-  background-color: #3b82f6;
-  color: white;
+  background-color: #60a5fa;
+  color: #ffffff;
   font-weight: 600;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .search-form button:hover {
-  background-color: #2563eb;
+  background-color: #3b82f6;
+  transform: translateY(-1px);
 }
 
-/* Loading */
+/* ====== LOADING ====== */
 .loading {
   text-align: center;
-  color: #6b7280;
+  color: #64748b;
   font-style: italic;
   margin-bottom: 20px;
 }
 
-/* Lista de historias */
+/* ====== LISTA DE HISTORIAS ====== */
 .historias-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
 }
 
+/* ====== TARJETA DE HISTORIA ====== */
 .historia-card {
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 20px;
-  background-color: #f9fafb;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 22px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.25s, box-shadow 0.25s;
 }
 
 .historia-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
 }
 
 .historia-card p {
-  margin: 5px 0;
+  margin: 6px 0;
+  color: #334155;
+  font-size: 0.95rem;
+  line-height: 1.4;
 }
 
 .historia-card p span {
   font-weight: 600;
-  color: #1f2937;
+  color: #1e40af;
 }
 
-/* Responsive */
+/* ====== RESPONSIVE ====== */
 @media (max-width: 768px) {
   .search-form {
     flex-direction: column;
@@ -107,18 +113,18 @@
   .search-form button {
     width: 100%;
   }
+
+  .container {
+    padding: 20px;
+  }
 }
 
 @media (max-width: 480px) {
-  .container {
-    padding: 15px;
-  }
-
   .container h2 {
     font-size: 1.5rem;
   }
 
   .historia-card {
-    padding: 15px;
+    padding: 18px;
   }
 }
